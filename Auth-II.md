@@ -63,7 +63,7 @@ userSchema.methods.isPasswordValid = function(passwordGuess) {
 }
 ```
 
-####Common ways to store session data:
+#### Common ways to store session data:
 - memory
 - cookie
 - memory cache (like Redis and Memcached)
@@ -74,12 +74,12 @@ userSchema.methods.isPasswordValid = function(passwordGuess) {
     - Same user can have different sessions on the server
 - Across requests, server will still know who you are
 
-####Storing session data in memory:
+#### Storing session data in memory:
 - data stored in memory is wiped when the server restarts
 - causes memory leaks as more and more memory is used as the application continues to store data
 - good for development due to its simplicity
 
-####Storing session data in cookies:
+#### Storing session data in cookies:
 - A cookie is not necessarily what the server stores, but it's the way we send data back and forth with the client
 - A small key/value pair passed back and forth betwen client and server and stored in the browser
 - The server uses it to store information about a particular client/user
@@ -90,25 +90,25 @@ userSchema.methods.isPasswordValid = function(passwordGuess) {
     * The server can make changes to the cookie before sending it back on the response
     * Rinse and repeat
 
-####express-session uses cookies for session management:
-#####Drawbacks when using cookies
+#### express-session uses cookies for session management:
+##### Drawbacks when using cookies
 - small size, around 4KB
 - sent in every request, increasing the size of the request if too much information is stored in them
 - if an attacker gets a hold of the private key used to encrypt the cookie, they could read the cookie data
     - Never store confidential information on a cookie
 
-#####Storing session data in Memory Cache (preferred way of storing sessions in production applications):
+##### Storing session data in Memory Cache (preferred way of storing sessions in production applications):
 - Stored as key-value pair data in a separate server
 - the server still uses a cookie, but it only contains the session id
 - the memory cache server uses that session id to find the session data
 
-######Advantages:
+###### Advantages:
 - quick lookups
 - decoupled from the api server
 - a single memory cache server can serve many applications
 - automatically remove old session data
 
-######Downsides:
+###### Downsides:
 - another server to set up and manage
 - extra complexity for small applications
 - hard to reset the cache without losing all session data
@@ -203,12 +203,12 @@ server.get('/users', authenticate, (req, res,) => {
 })
 ```
 
-####Sessions:
+#### Sessions:
 express-session
     - sessions are a way to persist data across requests
     - each user/device has a unique session
 
-#####Adding session support:
+##### Adding session support:
 ```
 const session = require('express-session');
     server.use(
@@ -252,9 +252,9 @@ server.get('/logout', (req, res) => {
 })
 ```
 
-####Storing Session date in a Database:
+#### Storing Session date in a Database:
 
-#####connect-mongoose
+##### connect-mongoose
 - Similar to storing data in a memory store
 - The session cookie still holds the session ID
 - The server uses the session ID to find the session data in the database
