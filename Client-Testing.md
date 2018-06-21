@@ -21,7 +21,7 @@ Start with Basic Javascript
 
 It's not just about writing tests, it's about getting familiar with a code base you didn't write
 
-#####Edge cases: What if someone uses this code not in the right way?
+##### Edge cases: What if someone uses this code not in the right way?
 - Verifying correctness when function used the right way
 - Verifying correctness when function is not used correctly (someone enters a string instead of a number, etc)
 
@@ -43,7 +43,7 @@ We write code to test our code.
 
 Writing code to check our code is something we know how to do.
 
-###Why do you want to learn to test?
+### Why do you want to learn to test?
 - good for resume
 - you can work on QA (which is paying a lot more than before) and DevOps
 - helps you understand how an application works
@@ -52,20 +52,20 @@ Writing code to check our code is something we know how to do.
 
 Which libraries should I use for testing?
 
-####Tooling: 
+#### Tooling: 
 - Test runner (Mocha) + assertion library (Chai)
 - Mocha - software that runs the test, Chai - the way you check for correctness(the syntax and how you check the values are correct)
 
 We are using Jest.
 
-####Other testing stacks/tools:
+#### Other testing stacks/tools:
 - Jasmine
 - Cue Union
 - Enzyme by airbnb
 - Super Test - back-end testing
 - React testing library
 
-#####Satallite to testing
+##### Satallite to testing
 - How do I know how much of my app is being testing?  
 Coverage:
     - Instanbul
@@ -73,7 +73,7 @@ Coverage:
 
 Automated testings mean you don't have to manually test everything, you can let the system run and test for you and call your attention to things that failed
 
-####What if I don't have tests?
+#### What if I don't have tests?
 - test manually - as the app grows, the time needed will not scale
 - regressions, code that used to work breaks
 - you just don't know if the code is correct for all cases
@@ -81,7 +81,7 @@ Automated testings mean you don't have to manually test everything, you can let 
 
 If you have automated tests, even if it's a large code-base, you can run tests before deploying to production
 
-###Types
+### Types
 - unit tests (fastest)
     - Our job, as developers, are required to write unit tests (most companies require it).
     - run on every change when you're doing development and on deployment
@@ -102,7 +102,7 @@ If you have automated tests, even if it's a large code-base, you can run tests b
 - acceptance test
     - Conditions under which you say the system is correct
 
-#####So integration tests mean that all unit ones combined in one package?
+##### So integration tests mean that all unit ones combined in one package?
 - That they work together well.
 - Ex: Think you're building hardware instead of software and you build a TV
     - TV works perfectly with controls and all that
@@ -110,7 +110,7 @@ If you have automated tests, even if it's a large code-base, you can run tests b
     - Someone else works on the remote control, everything on the remote control works
     - Until you put them together, you don't know if it works or not. That's the integration test.
 
-####We'll concentrate on:
+#### We'll concentrate on:
 - unit
 - component
 - snapshot
@@ -200,11 +200,11 @@ Watch Usage:
 > Press Enter to trigger a test run
 ```
 
-#####Can I do module.exports.add = add?
+##### Can I do module.exports.add = add?
 - Yes, but that would mean you'd only be exporting that function.  
 - If you're only doing one function, you can just do module.exports = add
 
-####Something about the syntax:
+#### Something about the syntax:
 
 Some people do:
 ```
@@ -242,7 +242,7 @@ Facebook has it inline to save space maybe?
 In reality, you'll be testing React applications so instead of using require, you'll be using import and export
     This is a problem that's going to go away, so don't worry too much about this (requiring the file)
 
-#####How do you feel about multiple expect statements in a single test definition?
+##### How do you feel about multiple expect statements in a single test definition?
 
 - I feel okay.  You're going to hear a lot of opinion this week.  Doesn't really matter.
     - It's not about the instructor.  Teaching this requires a lot of opinion because there is not one voice on the internet about any of that stuff

@@ -1,8 +1,8 @@
-#Review:
-#####Example of one to one relation:
+# Review:
+##### Example of one to one relation:
 User and Profile
 
-#####Example of one to many relation:
+##### Example of one to many relation:
 Order to order detail - one order could have many items
 
 #####Example of many to many:
@@ -12,10 +12,10 @@ Drivers and Buses (drivers can drive many buses, bus can be driven by many drive
 Linking/refs
 - MongoDB people call it 'true linking'
 
-#####Data type saved for the field that has the ref in it:
+##### Data type saved for the field that has the ref in it:
 ObjectID
 
-#####Mongoose document: 
+##### Mongoose document: 
 - representation of document in database
 - We can call methods on the model (find and findById)
 - Save is something we call on mongoose document
@@ -27,10 +27,10 @@ Mongoose supports subset of all data types supported by database
 
 Typescript is not related to content of class, just superset of things that will give you typing on Javascript the language - will validate types for you at development time.  At the end of the day, gets compiled to regular Javascript
 
-###Topics:
-######Data population
-######Middleware
-######Custom validation
+### Topics:
+###### Data population
+###### Middleware
+###### Custom validation
 
 db from mongo-films project:
 ```
@@ -41,7 +41,7 @@ module.exports = {
     }
 }
 ```
-#####What this was doing:
+##### What this was doing:
 - Calling function .connectTo and passing name of database
 - Returning object that has connectTo function and takes database as the first argument
     - If you don't pass anything, it will use default values from ES6 and connect to Sandbox and will use localhost as the host if you don't pass the second argument
@@ -80,16 +80,16 @@ No commas in populate - example, ('homeworld', 'name climate'), not ('homeworld'
 
 To get rid of _id, .populate('homeworld', '-_id')
 
-#####How do you store images or videos?
+##### How do you store images or videos?
 - Usually store on a file system and store link or ref in the database as a string
 - Mongo has a dataType for that - BLOB - Binary Large OBject
 
-#####What if there's multiple things you want populated?
+##### What if there's multiple things you want populated?
 - Can use as many populate functions as necessary
 - Might be another way, but that Works
 - Do not populate with the same field multiple times (it will only take last one)
 
-#####RegEx:
+##### RegEx:
 // /api/films?released=2005 /api/films?producer=gary kurtz
 ```
 router.get('/', function(req, res) {
@@ -124,7 +124,7 @@ Usually going to be cleaner with mongoose
 
 Read documentation, try it out, pick what's more natural to you
 
-#####Difference between easy and simple:
+##### Difference between easy and simple:
 Easy is from near me, things that are easier to grasp.  Things that are familiar seem easier, not necessarily simpler.
 Complex - braiding things together like a rope.  Simplifying is turning it from braided into each other to loose and separated.
     - from a talk from Rich Hickey (creator of Clojure), Simple Made Easy 

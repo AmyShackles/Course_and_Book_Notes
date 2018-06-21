@@ -1,8 +1,8 @@
 MongoDB Week 2 Part I
 
-#Creating Documents, the _id Field, Reading Documents
+# Creating Documents, the _id Field, Reading Documents
 
-###Creating Documents in MongoDB
+### Creating Documents in MongoDB
 db.collection.insertOne({})
     Could include your own _id so that MongoDB does not create one for you.
     However, if you have two documents that are the same in every way except for _id, Mongo will interpret them as different documents
@@ -40,7 +40,7 @@ Each ObjectID is a 12-byte hex string
 objectID:    _ _ _ _ | _ _ | _ _ | _ _ _
 ```
 
-###Reading Documents
+### Reading Documents
 ```db.collection.find({ rated: 'PG-13'})```
 First argument to find is known as the query document
 Fields in query document are selectors that restrict the result set
@@ -79,7 +79,7 @@ If you want to see how many left of cursor, etc....
     c.objLefInBatch()
 And then to iterate through the document, you would call doc()
 
-###Projection:
+### Projection:
 Handy way of reducing size of data returned for any one query
 - By default, mongoDB returns all fields for all matching documents
 - to limit the amount of data mongoDB sends to application, you can include projections
@@ -90,7 +90,7 @@ Projection syntax allows you to explicitly include fields in documents returned 
     - if you want to exclude _id, expliclty state that in the projection document
 `db.collection.find({query document}, {projection document})`
 
-###Comparison Operators:
+### Comparison Operators:
 - Allow us to match on basis of a field's value relative to another value
 
 ```
@@ -125,7 +125,7 @@ value of $in has to be an array
 $nin is for matching none of the values specified in an array
 
 
-###Element Operators: 
+### Element Operators: 
 Considerations for the shape of a document:
     - Presence or absence/or data type of a field
 
@@ -160,12 +160,12 @@ db.collection.find({ $and : [ { "metacritic: { $ne: null }}, {
 // keys in JSON document have to be unique.  
 // $and allows you to place multiple constraints on the same field
 ```
-###Regex Operator:
+### Regex Operator:
 
 `db.collection.find({ "awards.text": { $regex: /^Won\s.*/ }})`
 ^ means start at the beginning, Won means match with text that have Won as the beginning of the text, \s means space, .* means followed by any sequence of other characters 
 
-###Array Operators:
+### Array Operators:
 
 ```
 db.collection.find({ genres: { $all: ["Comedy", "Crime", "Drama" ]}})
@@ -186,16 +186,16 @@ db.collection.find({ boxOffice: { $elemMatch: {
 - specify name of field we're matching against, use elemMatch operator, specify criteria against we want to match elements in the array
 - Match only documents where all criteria are met within a single element of the array
 
-###Updating Documents:
+### Updating Documents:
 
-#####updateOne()
+##### updateOne()
 ```
 db.collection.updateOne({ filter/selector document }, { 
     $set { how we want to update the document}})
 ```
 - if there are multiple documnts with filter/selector, will update first one
 
-#####Field update operators:
+##### Field update operators:
 `$set` takes a document as an argument and expects a document with a number of specified fields.  Will update document matching the filter such that all key/value pairs are reflected in new version of document
 - sets value of a field in a document
 $unset 
@@ -207,7 +207,7 @@ db.collection.updateOne({ title: "The Martian" }, {
     $inc: { "tomato.reviews": 3, "tomato.userReviews: 25 }})
     // increments tomato reviews by 3 and userReviews by 25
 ```
-####Update Methods for Arrays
+#### Update Methods for Arrays
  - $addToSet - Update with new values only if value isn't contained in array
  - $pop - Pull off first or last item of an array
  - $pullAll - Removes all matching values from an array
@@ -235,14 +235,14 @@ Same principles apply to updateMany but it will make the same modification to al
 db.collection.updateMany({ rated: null }, { $unset: { rated: '' }})
     // removes the field 'rated' from docs where rated is null
 ```
-####Upserts:
+#### Upserts:
 - if no document is found matching our filter, insert
 db.collection.updateOne( { "imdb.id" : detail.imdb.id }, { $set: detail }, { upsert: true }) 
 - update any document where imdb.id is equal to imdb.id in detail document
     - in updating document, replaces it with essentially the exact same detail infomation
         - guarantees not two copies of same thing with different _id
 
-####replaceOne:
+#### replaceOne:
 ```
 db.collection.replaceOne({ "imdb": detail.imdb.id}, detail)
     // wholesale document document replacement

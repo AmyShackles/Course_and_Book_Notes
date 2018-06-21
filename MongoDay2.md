@@ -1,8 +1,7 @@
-#Review:
-####Mongoose:
+#### Mongoose:
 Library that wraps mongo DB native driver and provides cleaner API for us to connect to MongoDB and perform operations on our data.
 
-####Mongoose schema:
+#### Mongoose schema:
 How we define the shape of our documents
 If data has little or no structure, we probably just want to use the native driver rather than mongoose
 Mongoose is when we have structured data
@@ -15,7 +14,7 @@ mongoDB can have many databases
 
 A mongoose schema compiles to mongoose model
 
-#####Index:
+##### Index:
 Something you create to make searches go faster.
 - If there is no index, searches will be performed using a collection scan (will look at every record one at a time until it finds what it's looking for)
 - Indexes get created automatically for primary key (__id) and when marked as unique in the schema
@@ -29,7 +28,7 @@ It is possible to make a compound field with an index to speed up querying if yo
 Example: bearSchema.index({ species: 1, latinName: -1 })
 1 - ascending, -1 descending
 
-#####MongoDB
+##### MongoDB
 When designing mongoDB databases, it's important to think about how the user will use the data and customize the database to be specific to the user.
 
 SQL is client/application-agnostic.
@@ -41,7 +40,7 @@ strict: true
 This is the default that mongoose gives to schemas.  If you want to be able to add things not on the schema, you should specify strict: false
 Mongoose will then validate things that are set on the schema and accept the rest of what's been passed in through req.body
 
-####Model.discriminators:
+#### Model.discriminators:
 Introduces inheritance
 Is more detailed and not covered in this course
 Schema inheritance
@@ -50,32 +49,32 @@ Example: Animal Schema and then a Dog and Cat Schema
 Multiple models  with overlapping schemas on top of the same underlying MongoDB collection
 Should use caution because whenever you bring inheritance into a system, you're making some tight coupling
 
-#####Will DBA be mad at you using strict: false?
+##### Will DBA be mad at you using strict: false?
 If you have a DBA (database administrator), obey them - they will be in charge of modeling, etc., so you don't have to worry about strict: false, etc.
 
 Clarification:
 Can still write routes the way we did in previous lessons:
 `router.get('/', (req, res) => {...})`
 
-####Note on delete:
+#### Note on delete:
 Normally on delete, we would not return an object, we would have a tool for no content (204) - Nothing returns except a status code saying that it was successful
 Need to do .end() or return() or it will get stuck if you only send status
 
-####Delete Method
+#### Delete Method
 findByIdAndDelete is a mongoose method
 In MongoDB, you would have to find and then delete
 
-####Cast Error
+#### Cast Error
 If you give an ID as a string, Mongo will try to convert it to an ObjectId
 If it can't : Cast error
 
 When you call Json or end, it will end the request and send the response right  away, but apparently status will not stop the request.  Request goes through, but API doesn't return back to the client saying it's done.
 
 
-####Order not important in if/else:
+#### Order not important in if/else:
 That is, works the same if you have if `(true) {...} else { ... }` and if you have `if (false) {...} else {....}`
 
-#####POST REQUEST EXAMPLE
+##### POST REQUEST EXAMPLE
 ```
 router.put('/:id), (req, res) => {
 const { id } = req.params;
@@ -109,7 +108,7 @@ Bear.findByIdAndUpdate(id, update, options).then(bear => {
 Built-in validators always run:
 Example: unique
 
-You should in theory do validation at all three levels:
+###### You should in theory do validation at all three levels:
 - Client so you don't hit the API with invalid data
 - If client sends you back data, validate at the API (router, interface with the client)
     - Doesn't have to be inside the route.  Might call a function to validate

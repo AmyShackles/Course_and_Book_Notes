@@ -15,8 +15,7 @@ change main from index.js to server.js
     }
 }
 ```
-* yarn add nodemon --dev 
-*** side note from Amy: is that npm install nodemon --save-dev for npm?)
+* yarn add nodemon --dev / npm install nodemon --save-dev
 
 ```
 const express = require('express')
@@ -61,7 +60,7 @@ function greet(req, res, next) {
     next();
 }
 ```
-####Global:
+#### Global:
 
 ```
 server.use(greet);
@@ -105,12 +104,12 @@ server.post('/login', authenticate, (req, res) => {
 ```
 So if you get to the route, it means you passed the authentication
 
-#####Why nodemon is important:
+##### Why nodemon is important:
 If you don't use nodemon, it runs with node but when you make a change, the server doesn't restart
 
 - If you add nodemon as a dependency instead of a devDependency, it will still work, but you should add it as a devDependency because you won't use it in production
 
-#####Steps to debug:
+##### Steps to debug:
 Do we have an error on the server?
 Is the server running?
 Is the server running using yarn start with nodemon?
@@ -185,13 +184,13 @@ userSchema.post('save', function (next) {
 }) // example that we can execute code after and before save 
 ```
 
-####Proper AuthN (authentication) vs AuthZ (authorization)
-#####We will concentrate on AuthN
+#### Proper AuthN (authentication) vs AuthZ (authorization)
+##### We will concentrate on AuthN
 - password storage
 - brute-force attack mitigation
 - password strength
 
-#####Hashing vs Encryption
+##### Hashing vs Encryption
 - Encryption is a two-way process
     - plain text password + private key => encrypted password
     - encrypted password + private key => original password
@@ -219,7 +218,7 @@ Go to website: https://www.grc.com/haystack.htm
 - Think of a song or a book or a movie or something your kid says and use that (maybe)
 
 ```
-const bcrype = require('bcrypt')
+const bcrypt = require('bcrypt')
 
 userSchema.pre('save', function (next) { // can't use arrow function here because bcrypt uses 'this'
     bcrypt.hash(this.password, 11, (err, hash) => { // 11 is the number of rounds (don't use less than 10), regular Node callback

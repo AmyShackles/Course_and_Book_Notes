@@ -1,6 +1,6 @@
 Side Note: Robo 3T - Better than Compass
 
-##Topics:
+## Topics:
 - importing data
 - modeling rations
    -  one to one
@@ -14,13 +14,13 @@ Side Note: Robo 3T - Better than Compass
     - filtering
     - projection
 
-###Data in Mongo Films Project
+### Data in Mongo Films Project
 Were generated using a export utility
 - Generates JSON files but in different way
 - Collection of objects, but not separated by commas
 - Special type of JSON files we can use and import into our database
 
-###Importing
+### Importing
 From inside the folder where the JSON files you want to import are located:
 `mongoimport --db databasName --collection collectionName --file nameOfFile.json`
 
@@ -37,7 +37,7 @@ There's a relationship between the species and the planet
 One planet can have more than one species, but species can only have one planet 
     - Same with characters (only one homeworld)
 
-##Mainly three types of relation:
+## Mainly three types of relation:
 ### One to One:
 - One user has one profile
 - One patient has one medical record
@@ -80,20 +80,20 @@ const definition = {
 }
 
 ```
-####SWAPI Had Keys
+#### SWAPI Had Keys
 Luis wrote code that grabbed that ID and turned it into ObjectID
 Don't need pilot key anymore, can take pilots (array of ObjectIDs) instead
 
-###One to Many:
+### One to Many:
 Start with ref (linking)
 
-###One to One:
+### One to One:
 Start with embedding (sub-documents)
 
-###One to few:
+### One to few:
 Could be embedded or linked (ref)
 
-###Many to Many (Few)
+### Many to Many (Few)
 Many would be linked, few embedded
 
 ```
@@ -149,22 +149,22 @@ const options = {
 };
 ```
 
-###Don't have to import models
+### Don't have to import models
 - Just need to know the names of the models
 
-#####Whenever one to many, default to ref
+##### Whenever one to many, default to ref
 
-######Planet is not a good use case for embedding
+###### Planet is not a good use case for embedding
 - Species, characters, etc. pull from that information
 
-####If you know you're not going to have a new collection:
+#### If you know you're not going to have a new collection:
 Embed document
 
-###Querying Data
+### Querying Data
 Before you call .then, just a promise
 Every query can be captured as a query
 
-###Sort
+### Sort
 ```
 let query = Character.find()
 
@@ -173,7 +173,7 @@ query.sort('-name') // by name descending
 query.sort('gender -height) // multiple fields
 query.sort({ gender: 1, height: -1 }) // same as above
 ```
-###Projection
+### Projection
 Have a lot of things but only need a few fields:
 ```
 query.select('name gender')
@@ -183,7 +183,7 @@ query.select({ name: 1, gender: 1, _id: 0 }) // excludes _id
 ```
 * _id is always returned by default
 
-####Methods are chainable:
+#### Methods are chainable:
 ```
 Character.find({ gender: 'female'}) 
     .sort('height')
