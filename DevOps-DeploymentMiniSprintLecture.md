@@ -1,16 +1,16 @@
-#What is DevOps/Deployment?
+## What is DevOps/Deployment?
 DevOps and Deployment is almost a subfield of computer science.
 
-##Deployment
+## Deployment
 Taking your code that you have written in some environment for some purpose and making it available for others to use.
 - Usually means deploying to the web
 - Could also mean deploying firmware code that you have written to a piece of hardware that can run that code and no other hardware can use it.  
 - Could refer to internally deploying a toolset or library to the rest of your team so they can make it available in their own work.
 
 
-######Deployment is always taking something you've written that is private and local to your computer and deploying it to others so that they can use it.
+###### Deployment is always taking something you've written that is private and local to your computer and deploying it to others so that they can use it.
 
-#####Worst case of deployment:
+##### Worst case of deployment:
 - Take the work you've made, put it on the floppy disk, and give it to someone and they can use it.
 Flaws: 
 - Person receiving the disk can't reproduce it themselves
@@ -19,7 +19,7 @@ Flaws:
 Goal in deployment:
 - Make it automated such that when you create a new piece of code that you think another person can use, they can use it.
 
-##DevOps:
+## DevOps:
 Deploying websites in a professional environment on the web.
 - It is very, very complicated
 - Networking: Deep field with a lot of theory and research
@@ -29,9 +29,9 @@ Deploying websites in a professional environment on the web.
 - The internet and how your code is on the internet is the use of servers is part of DevOps
 - The delivery of your code from those servers on the internet to the customer is DevOps.
 
-######DevOps has to involve delivering a software project across a network line to a client/machine somewhere.
+#### DevOps has to involve delivering a software project across a network line to a client/machine somewhere.
 
-####Steps of Simple DevOps:
+### Steps of Simple DevOps:
 - Configure an operating system on a computer
 - Connect a computer to the internet
 - Write software that opens a socket and listens for connections
@@ -52,7 +52,7 @@ Deploying websites in a professional environment on the web.
 - It depends on your operating system, your connection, etc. how many that is, but it definitely can't handle 2,000 connections per second (most likely far fewer)  
 - If your website takes one second to do the job you designed it to do, nobody can connect to your server for a minute until the job is finished.
 
-#####Nginx spawns processes as each connection comes in.
+##### Nginx spawns processes as each connection comes in.
 - A connection comes in to your OS.  
 - Your OS hands the connection to nginx.  
 - It spawns a completely new process and runs your webserver or makes a connection to your webserver inside of that process.  - Then it renames the socket (frees up port 80 again) and it gives the socket a different port ID.  
@@ -63,9 +63,9 @@ Deploying websites in a professional environment on the web.
 - It doesn't run your server or ask the server for the file, it already has it.
 3) Connects to the internet
 
-######As a part of basic hosting, even if all you want to do is this, you have to know about domain names.
+###### As a part of basic hosting, even if all you want to do is this, you have to know about domain names.
 
-####What's a domain name?  
+#### What's a domain name?  
 Google.com is a domain name.  
 But that's not how you get to google.com.  
 
@@ -97,8 +97,8 @@ Namecheap is/was hot.
 
 Have to register your website every year and tell it who you are because on ICANN's whois page, we can find out who owns a website - they're legally required to give that information.
 
-####HTTPS - secure hypertext transfer protocol
-#####TLS - transport level security
+#### HTTPS - secure hypertext transfer protocol
+##### TLS - transport level security
 - Similar to public private key pair encryption except the private key is controlled at a central register and when you make a connection to a website over the HTTPS scheme, that tells your browser to connect to 443, not 80.  
 - A complicated HTTP handshake occurs where your webiste says "I'm trying to make a connection to Google.com" and 443 says "I am Google.com, here is my certiifcate, here is an encrypted packet that proves I'm Google.com.  
 - Then your browser takes the packet and compares it against nationally recognized HTTPS security providers like Verisign and confirms that it's Google.  
@@ -108,11 +108,11 @@ Where you get HTTPS certificates is also a matter of fad and popularity
 SSL - secure sockets layer. 
 HTTPS, TLS, and SSL are similar things.
 
-#####digicert - $140 a year for secure traffic
+##### digicert - $140 a year for secure traffic
 - You buy a certiciate from digicert, you create a public/private key pair that you share with them which they add to the national registry so anyone that wants to connect to you can validate your key pairs.  
 - Then you take your private key from the key generation and you have to upload it to your web server and your web server uses that key to encrypt traffic and perform the HTTP handshake at the beginning.
 
-####Self-signed HTTPS certificates:
+#### Self-signed HTTPS certificates:
 - You don't have to do anything.  
 - You tell your web server when you configure HTTPS that the certificate is self-signing.  
 - Means when the protocol handshake begins, your web server says "I'm giving you a HTTP certificate.  I signed it.  It is what I said it is and no one else can validate it for you."
@@ -121,15 +121,15 @@ HTTPS, TLS, and SSL are similar things.
 
 **Man in the middle** means someone in the middle between the data that the server's sending to the customer gets the data, takes off the HTTPS certificate that came with it, puts its own on, and can change the data and do whatever it wants with it.
 
-WHen you use a central cert authority, not theoretically possible to take the HTTPS wrapper off the data because only the central authority knows how to do that and if anyone else does it, it'll show and it will no longer be valid.
+When you use a central cert authority, not theoretically possible to take the HTTPS wrapper off the data because only the central authority knows how to do that and if anyone else does it, it'll show and it will no longer be valid.
 
-#####Self-signed:
+##### Self-signed:
 Use for development, can't deploy with it.
 
-#####Verisign:
+##### Verisign:
 Can't use for development because your server that you want to host that's validated with Verisgn is the only one that Verisign will validate and if you try to do it locally, it will say you're not actually the server and it won't validate you at all.
 
-###ngrok
+### ngrok
 - Allows you to do devOps off your own machine.
 - Generally all of us are behind a firewall
     - If you tell somebody your private IP address, they can't get there, they can't go to your computer and read port 80 off your computer without complicated rigamorole.
@@ -138,7 +138,7 @@ Can't use for development because your server that you want to host that's valid
     - Most essential form of security penetration is to programmatically tickle ports on IP addresses on the internet and find out if they'll let you log in and write data to them.
     - No safe way to host a website on your personal computer (except with ngrok)
 
-#####Ngrok will create a tunnel
+##### ngrok will create a tunnel
 - Run ngrok on your local machine and tell you where your web server is located based on its port
 - Ngrok runs, opens a connection with your local web server and then creates a tunnel to their web server located at ngrok.com
     - Tunnel can be any form of connection - simplest tunnel would be websocket connection
