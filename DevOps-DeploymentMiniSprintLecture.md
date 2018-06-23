@@ -45,7 +45,7 @@ Deploying websites in a professional environment on the web.
     - nginx is really listening for connections (not trivial to master)
 
     
-#####Nginx is fundamentally a load-balancing automating caching webserver.
+##### Nginx is fundamentally a load-balancing automating caching webserver.
 1) Accepts multiple connections by listening as a web server on a specific port.  On a public web server, that's almost always port 80.  
 - The trick is that your OS only has one port 8 (why you have to use nginx)
 - When you open up Express, it can only accept as many connections on that port as your OS can finish traffic on that port.  
