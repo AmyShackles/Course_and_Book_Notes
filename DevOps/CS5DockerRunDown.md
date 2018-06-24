@@ -50,35 +50,40 @@ server.listen(3000, () => {
 
 #### Dockerfile:
 ```
-// image you want to build off of (baseImage)
-// 8.7 is the version of Node being used
-// Sometimes Docker can't work with latest version
-// Environment you'll build on
+/* image you want to build off of (baseImage)
+    8.7 is the version of Node being used
+    Sometimes Docker can't work with latest version
+    Environment you'll build on */
+
 FROM node:8.7
 
-// set working directory for any subsequent add, copy, command -- entrypoint
-// working directory is the root
-// Where you'll start building this to
+/*  set working directory for any subsequent add, copy, command -- entrypoint
+    working directory is the root
+    Where you'll start building this to */
+
 WORKDIR /
 
-// at the root, copy package.json and package-lock.json files.
-// lock allows you to stay synchronized in your teams
-// copied to the root of the project
-// will be copied from the project to the docker container
-// Copy package.json/package-lock.json into root
-COPY package.json package-lock.json ./
+/*  at the root, copy package.json and package-lock.json files.
+    lock allows you to stay synchronized in your teams
+    copied to the root of the project
+    will be copied from the project to the docker container
+    Copy package.json/package-lock.json into root
+    COPY package.json package-lock.json ./ */
 
 RUN npm install
 
-// wildcard of two dots
-// take everything given to you and copy it over to the container
-// Copy modules over into the image
+/*  wildcard of two dots
+    take everything given to you and copy it over to the container
+    Copy modules over into the image */
+
 COPY . . 
 
-// expose the port you're running from
+/* expose the port you're running from */
+
 EXPOSE 3000
 
-// run npm start
+/* run npm start */
+
 CMD("npm", "start")
 ```
 
@@ -97,12 +102,18 @@ CMD("npm", "start")
 
 #### Commands used to get image built:
 ```
-// to build image
+/* to build image */
+
 docker build -t docker-explorer .
-// tell docker which port to expose
+
+/* tell docker which port to expose */
+
 docker run -p 49161:3000 -d docker-explorer
-// returns hash that you can use to run the docker exec command that allows you to look inside container
+
+/* returns hash that you can use to run the docker exec command that allows you to look inside container */
+
 docker exec -it ${hash}
+
 ls
 ```
 ##### output of ls:
