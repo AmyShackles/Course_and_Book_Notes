@@ -197,11 +197,9 @@ The flag LoadBalancer is in place because as one piece of traffic hits the publi
 `kubectl get services`
 - get public IP of your service
 
-Question:
-Do we have 2 virtual PCs so to speak?
+###### Do we have 2 virtual PCs so to speak?
 
-Answer:
-Yes.  We have deployed to a cluster that will create two pods where our app can live in those pods and it's using Docker to create the same environment for those pods.  And then the load balancer is balancing traffic.
+##### Yes.  We have deployed to a cluster that will create two pods where our app can live in those pods and it's using Docker to create the same environment for those pods.  And then the load balancer is balancing traffic.
 
 Public IP address is now hosting web application
 - Can be aliased to a domain name of your choice
@@ -249,8 +247,13 @@ Firebase is a back-end as a service
 You could accomplish similar deployment features as Docker with a virtual machine like Vagrant
 
 ```
+# Delete the Kubernetes load balancer service
 kubectl delete service/${NAME_OF_DEPLOYMENT}
+
+# Delete the Kubernetes deployment itself
 kubectl delete deployment/${NAME_OF_DEPLOYMENT}
+
+# Delete your GCP cluster
 gcloud container lusters delete ${NAME_OF_CLUSTER} --zone="${TIME_ZONE}" 
 ``` 
 
