@@ -5,17 +5,19 @@ One of the solutions for distribution not being equal is Docker.
 ## [Docker](https://docs.docker.com/)
 
 #### Paradigm of Docker:
+
 - Docker gives you an image and it goes to that image (which is kind of like a virtual machine or container) and deploys from that container and exposes the URL through that container
-    - Everything you do with Docker is built from a simple Docker file that you put in your application
+  - Everything you do with Docker is built from a simple Docker file that you put in your application
 - Something that works on your machine should work the same on others
 - Can build a Docker container for any server environment
-    - PHP environment
-    - Node environment
-    - etc.
+  - PHP environment
+  - Node environment
+  - etc.
 - Will create a run-time environment for the dependencies and packages you give it.
 - Piggybacks off your operating system and layers on top of it in containers and so you build your image and the image gets served out of the containers
 
 #### In terms of distribution:
+
 - Instead of having a single address where your environment could live and servers distributed around the world, you can think of it as an apartment complex where Docker can run as the architecture of the apartment complex and each container can be an individual apartment in the apartment complex.
 - You get a lot of distribution that's even and the same in every environment you run it.
 
@@ -29,6 +31,7 @@ One of the solutions for distribution not being equal is Docker.
 ```
 
 #### server.js
+
 ```
 const express = require('express');
 const bodyParser = require('body-parser');
@@ -49,6 +52,7 @@ server.listen(3000, () => {
 ### Everything you do with Docker lives and dies in this file:
 
 #### Dockerfile:
+
 ```
 /* image you want to build off of (baseImage)
     8.7 is the version of Node being used
@@ -57,7 +61,9 @@ server.listen(3000, () => {
 
 FROM node:8.7
 
-/*  set working directory for any subsequent add, copy, command -- entrypoint
+/*  set working directory for any subsequent
+    add, copy, command -- entrypoint
+
     working directory is the root
     Where you'll start building this to */
 
@@ -76,7 +82,7 @@ RUN npm install
     take everything given to you and copy it over to the container
     Copy modules over into the image */
 
-COPY . . 
+COPY . .
 
 /* expose the port you're running from */
 
@@ -88,6 +94,7 @@ CMD("npm", "start")
 ```
 
 #### in package.json:
+
 ```
 "scripts": {
     "start": "node server.js"
@@ -95,12 +102,14 @@ CMD("npm", "start")
 ```
 
 ## Docker
+
 - Need to install on local machine
 - Make sure it's up and running
-    - It's keeping a daemon server alive on your machine
+  - It's keeping a daemon server alive on your machine
 - Associated with your Docker account (so need to have Docker account)
 
 #### Commands used to get image built:
+
 ```
 /* to build image */
 
@@ -116,7 +125,10 @@ docker exec -it ${hash}
 
 ls
 ```
+
 ##### output of ls:
+
+```
 - Dockerfile
 - bin
 - boot
@@ -142,6 +154,7 @@ ls
 - tmp
 - usr
 - var
+```
 
 `curl -X GET http://localhost:49161`
 Project on localhost:49161, but localhost:3000 not running
@@ -154,8 +167,5 @@ With the use of Docker, you can safely say what it looks like on the local host,
 [Docker Repo](https://github.com/LambdaSchool/DevOps-Deployment-Mini)
 
 ##### Google Cloud Platform
+
 - $300 in credits which you won't burn through in any of the apps you create at Lambda or for the first year or whatever
-
-
-
-
