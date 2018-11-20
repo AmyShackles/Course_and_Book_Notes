@@ -8,6 +8,7 @@ For this exercise, we'll need MogoDB to be running
 
 yarn add /npm install express mongoose
 change main from index.js to server.js
+
 ```
 { 
     "scripts": {
@@ -15,6 +16,7 @@ change main from index.js to server.js
     }
 }
 ```
+
 * yarn add nodemon --dev / npm install nodemon --save-dev
 
 ```
