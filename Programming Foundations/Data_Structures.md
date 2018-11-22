@@ -457,3 +457,14 @@ Things you can do with a stack:
 | Ruby        | use Array (push / pop)    |
 | Python      | use lists (append / pop)  |
 | C++         | std::stack (push / pop)   |
+
+## Abstract Data Types
+
+Stacks and Queues
+
+- Has expected, defined behavior
+- Implementation is abstracted away
+- Could be implemented behind the scenes using a dynamic array
+- Could also be implemented behind the scenes using a linked list
+
+Abstract data types are not the same as an abstract class
