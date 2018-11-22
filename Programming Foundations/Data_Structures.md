@@ -531,3 +531,27 @@ Can behave like a stack or a queue
 | Ruby        | n/a - use Array                     |
 | Python      | collections.deque                   |
 | C++         | std::deque                          |
+
+## Associative Arrays
+
+- Pairs of keys and values
+- Keys must be unique, values do not have to be
+- Keys do not need to be in order
+- Values can be objects
+- Common to use a string as a key, but can use any type
+
+## Language Support for Associative Arrays
+
+| Language    | Support               |
+| ----------- | --------------------- |
+| Java        | HashMap, HashTable    |
+| C#          | Hashtable, Dictionary |
+| Objective-C | NSDictionary          |
+| Ruby        | Hash                  |
+| Python      | dict                  |
+| C++         | std::unordered_map    |
+| Javascript  | objects               |
+
+Behind the scenes, most associative arrays are implemented using a hash table
+
+To understand a hash table, we first need to understand a hash.
