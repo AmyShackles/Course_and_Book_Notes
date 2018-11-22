@@ -468,3 +468,66 @@ Stacks and Queues
 - Could also be implemented behind the scenes using a linked list
 
 Abstract data types are not the same as an abstract class
+
+## Using Queues
+
+First element in is the first element out (FIFO)
+
+Sending jobs to a printer is an example of a queue
+
+Used in multithreading and concurrency situations
+
+## Language Support for Queue
+
+| Language    | Support                                            |
+| ----------- | -------------------------------------------------- |
+| Java        | LinkedList (add / remove)                          |
+| C#          | Queue (enqueue / dequeue)                          |
+| Objective-C | NSMutableArray (addObject / removeObjectAtIndex:0) |
+| Ruby        | use Array (push / shift)                           |
+| Python      | queue (put / get)                                  |
+| C++         | std::queue (push_back / pop_front)                 |
+
+## Priority Queues
+
+Typically requires a comparator or compare function
+
+Allows you to add elements to the array that can be moved closer to the front of the queue if they have a higher priority than the elements already in the queue.
+
+## Language Support for Priority Queues
+
+| Language    | Support             |
+| ----------- | ------------------- |
+| Java        | PriorityQueue       |
+| C#          | n/a                 |
+| Objective-C | CFBinaryHeap        |
+| Ruby        | n/a                 |
+| Python      | n/a                 |
+| C++         | std::priority_queue |
+
+NOTE:
+Course says n/a for Python, but Python website indicates there is a PriorityQueue class:
+
+[Priority Queue](https://docs.python.org/3.7/library/asyncio-queue.html?highlight=priority%20queue) <br />
+class asyncio.PriorityQueue <br />A variant of Queue; retrieves entries in priority order (lowest first). <br />Entries are typically tuples of the form (priority_number, data).
+
+## Using a Deque (Double-ended queue)
+
+Can add to either end
+
+Can remove from front or end
+
+Can behave like a stack or a queue
+
+**Caution** Deque (specialized kind of queue) vs. Dequeue (method to remove item from queue)
+
+## Language Support for Deque
+
+| Language    | Support                             |
+| ----------- | ----------------------------------- |
+| Java        | LinkedList implements Deque         |
+| C#          | n/a - use LinkedList for equivalent |
+| Objective-C | n/a - use NSMutableArray            |
+| Ruby        | n/a - use Array                     |
+| Python      | collections.deque                   |
+| C++         | std::deque                          |
