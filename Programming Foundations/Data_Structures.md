@@ -98,3 +98,269 @@ myWindow.setBackground(backgroundColor);
 | Java           | Do not exist - closest equivalent is lightweight class |
 | Python         | Do not exist                                           |
 | Ruby           | Exist, though implemented as lightweight class         |
+
+## Array
+
+- Ordered collection of items, multiple independent values contained in one named container
+- Most commonly used data structure
+- Support for simple arrays is usually built in
+- Each element has an index
+- You can get to any element knowing its index
+
+### Simple Arrays:
+
+- Usually, 0-based integer index
+- Fixed size (immutable)
+- Specific data type
+
+Misconception: Simple Arrays are just from the olden days, should use dynamic arrays without data restrictions if you can.
+
+- The more constraints you can put in place, the faster and smaller your data structure is able to be
+
+_Flexibility introduces overhead_
+
+### Using Multidimensional Arrays (Matrix/Table)
+
+Access elements (row index, column index)
+Useful for representing real-world situations
+
+- Example: temperature readings (day/hours), chess board
+  If you understand the idea of a cell phone bill for a multi-person family plan, you can grasp a multi-dimensional array
+
+## Using Jagged Arrays
+
+Choosing to do a little more work up front to allow logic to not have to be added later
+Having internal arrays of differing sizes
+Example: If you need to represent days in a month, there are varying numbers of days in a month
+
+Pseudocode:
+
+```
+int[][] ticketSales = new int[12][]
+for each month in ticketSales
+    if april, june, september, november
+        create array of 30 elements
+    else if february and leap year
+        create array of 29 elements
+    else if february and not leap year
+        create array of 28 elements
+    else
+        create array of 31 elements
+    end if
+    add array to ticketSales[month]
+end for
+```
+
+## Resizeable (Dynamic, Mutable) Arrays
+
+### Simple fixed-size arrays: Java
+
+```
+String[] fixedArray = new String[3];
+
+fixedArray[0] = "This";
+fixedArray[1] = "Cannot";
+fixedArray[2] = "Grow";
+```
+
+### Resizable arrays: Java
+
+```
+// need to import
+import java.util.*;
+
+// create arraylist of strings
+List<String> resizeable = new ArrayList<String>();
+
+resizeable.add("This");
+resizeable.add("Is");
+resizeable.add("Resizeable");
+```
+
+### Fixed arrays: Objective-C
+
+```
+//NSArray used for arrays of objects - fixed size
+NSArray \*myFiexedArray = @[@"one", @"two", @"three"];
+```
+
+### Resizeable arrays: Objective-C
+
+```
+// NSMutableArray is the resizeable version
+NSMutableArray *resizeable = [[NSMutableArray alloc]init];
+
+[resizeable addObject:@"one"];
+[resizeable addObject:@"two"];
+[resizeable addObject:@"three"];
+```
+
+### Adding new elements: location?
+
+- Adding an element at the end is easier, faster, and takes less work
+- Adding anywhere else requires moving other elements around
+  - Just because something is happening in the background doesn't mean you can ignore that it's happening
+
+## Appending items at the end of the array
+
+| Language    | Method          |
+| ----------- | --------------- |
+| Java        | add(value)      |
+| Objective-C | addObject:value |
+| JavaScript  | push(value)     |
+| Ruby        | push(value)     |
+| Python      | append(value)   |
+
+## Inserting items at a specific index
+
+| Language    | Method                                          |
+| ----------- | ----------------------------------------------- |
+| Java        | add(index, value)                               |
+| Objective-C | addObject:value atIndex:index                   |
+| JavaScript  | splice(index, items_to_remove, items_to_insert) |
+| Ruby        | insert(index, value)                            |
+| Python      | insert(index, value)                            |
+
+## Removing items from an array
+
+| Language    | Method                    |
+| ----------- | ------------------------- |
+| Java        | remove(index)             |
+| Objective-C | removeObjectAtIndex:index |
+| JavaScript  | pop / slice               |
+| Ruby        | pop / delete_at           |
+| Python      | pop / remove              |
+
+## Five requirements of any data structure
+
+- How to **Access** (one item/ all items)
+- How to **Insert** (at end/ at position)
+- How to **Delete** (from end/ from position)
+- How to **Find** (if exists/ what location)
+- How to **Sort** (sort in place/ created sorted version)
+
+Often won't get all five
+
+- Most won't support search
+- Many don't provide sorting behavior (others are naturally sorted and keep themselves organized)
+
+## Sorting Arrays
+
+Will typically use the sort built in to the language because it's battle-tested
+
+Built-in sorting tends to look at the length of the array in order to figure out what implementation to use
+
+Most languages will attempt to sort in-place
+
+There are a few that create a sorted copy of the array
+
+Need to understand which one your language is doing
+
+Sorting is always computationally intensive - keeping conscious of how much data you have and how often you need it sorted may lead you to changing data structure
+
+## Sorting Custom Objects
+
+If you have an array of objects with multiple pieces of data, you want to control how that's sorted
+
+Will need to provide a little bit of logic, comparator or compare function
+
+Sorting is hard, comparing is easy
+
+### Example Comparator/ Compare Function:
+
+```
+PseudoCompare (Employee a, Employee b)
+    if a.lastName < b.lastname return -1 // less than
+    if a.lastname > b.lastname return 1 // greater than
+    if a.lastname == b.lastname
+        if a.firstname < b.firstname return -1 // less than
+        if a.firstname > b.firstname return 1 // greater than
+        if a.firstname == b.firstname return 0 // equal
+    end if
+end
+```
+
+## Searching Arrays
+
+### Linear (sequential) search: O(n) complexity
+
+```
+set i to 0
+while i < array.length
+    if array[i] == 99
+        return true
+    end if
+    add 1 to i
+end while
+return false
+```
+
+Best case: element at [0]
+Worst case: Not in array
+
+If you have a simple array and the items can be in any order, a linear search may be what you have to do.
+
+If there's no predictable order, no other option than to check all the items
+
+If the array is ordered, there are better ways of searching
+
+If searching is something you're going to want to do, having an order may be important
+
+Asking a data structure to sort is computationally demanding.
+
+- May settle for a slow search because it is less computationally exhaustive than keeping sort
+
+## Using built-in search behavior
+
+```
+if (myArray.contains(99) ) {
+    log("Yes, it exists")
+}
+```
+
+```
+// for specific location
+int result = myArray.indexOf(99);
+
+if ( result != -1) {
+    log ("The value is located at position: " + result);
+} else {
+    log ("The object is not in the array")
+end if
+```
+
+## Searching for existence / location
+
+| Language    | Method for existence | Method for location |
+| ----------- | -------------------- | ------------------- |
+| Java        | contains             | indexOf             |
+| Objective-C | containsObject       | indexOfObject       |
+| JavaScript  |                      | indexOf             |
+| Ruby        |                      | index / find_index  |
+| Python      |                      | index               |
+| C#          | contains             | indexOf             |
+
+## Binary Searching
+
+If the values in your array are in descending or ascending order
+
+- Calculate midpoint of list rounded down
+- Check if value we're searching for is at the midpoint
+- If not:
+  - If number at midpoint is lower than the value searching for, can ignore indexes following it
+    - Advance upper index to midpoint, calculate new midpoint
+  - If number at midpoint is higher than the value searching for, can ignore indexes preceding it
+    - Advance lower index to midpoint, calculate new midpoint
+
+## Binary Searching - Language Support
+
+| Language    | Method                       |
+| ----------- | ---------------------------- |
+| Java        | binarySearch                 |
+| C#          | Array.BinarySearch           |
+| JavaScript  | n/a                          |
+| Ruby        | bsearch                      |
+| C++         | binary_search                |
+| Objective-C | indexOfObject:inSortedRange: |
+
+Although binary search is great for sorted array, we'll see it again going forward because it's not just useful for arrays
