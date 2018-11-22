@@ -364,3 +364,75 @@ If the values in your array are in descending or ascending order
 | Objective-C | indexOfObject:inSortedRange: |
 
 Although binary search is great for sorted array, we'll see it again going forward because it's not just useful for arrays
+
+## Lists
+
+In Python, fundamental data type
+
+In Java, list is an interface (abstract definition)
+
+In Objective-C, programmers write it themselves
+
+In Ruby, unlikely to talk about lists
+
+Both arrays and lists are collections (ways to collect items into one group with a name)
+
+## Understanding Lists
+
+If arrays are about direct access, lists are about sequential access.
+
+Structure does not have strict numeric index
+
+Elements can be stored anywhere in memory
+
+When you access a list, you get the first element (first node).
+
+A list node is a simple wrapper object (struct) that holds the element and the link to the next node.
+
+Last element contains a terminal/sentinel node or null reference
+
+Downside, have to access elements sequentially
+
+### Adding / Removing Elements
+
+While adding/removing in the middle of an array requires moving everything past that element
+
+To add a node at the start of a list, create a new node and point it to the previous start of the list
+
+To add to the end, create a node at the end of the list, pointing the previous end of the list to the new node.
+
+Removing is just as easy, changing pointers.
+
+## Comparison of Arrays and Linked Lists
+
+|                 |                  Arrays                   |          Linked Lists           |
+| :-------------: | :---------------------------------------: | :-----------------------------: |
+|  Direct Access  |      **Good** <br />fixed time O(1)       | **Poor** <br />linear time O(n) |
+| Adding/Removing |      **Poor** <br />linear time O(n)      | **Good** <br />fixed time O(1)  |
+|    Searching    | O(n) linear search O(log n) binary search |       O(n) linear search        |
+
+## Linked Lists
+
+Singly linked lists - reference to next node
+
+Doubly linked lists - reference to previous and next node
+
+Circular doubly linked list - last element points to first element, first element's previous is last element
+
+## Lists in Languages
+
+Java - interface (describes behavior that another class can implement)
+
+- Class LinkedList is a doubly-linked-list implementation
+- Operations that index into the list will traverse the list from the beginning to the end or the end, whichever is closer to the specific index.
+
+## Language Support for Linked Lists
+
+| Language    | Support                                                |
+| ----------- | ------------------------------------------------------ |
+| Java        | LinkedList in java.util                                |
+| C#          | LinkedList in System.Collections.Generic               |
+| Objective-C | n/a                                                    |
+| Ruby        | n/a                                                    |
+| Python      | n/a - "lists" are dynamic arrays, **not** linked lists |
+| C++         | std::list                                              |
