@@ -436,3 +436,24 @@ Java - interface (describes behavior that another class can implement)
 | Ruby        | n/a                                                    |
 | Python      | n/a - "lists" are dynamic arrays, **not** linked lists |
 | C++         | std::list                                              |
+
+## Stacks
+
+Last element added to the stack is the first one out (LIFO/FILO)
+
+Things you can do with a stack:
+
+- Push items onto the stack
+- Pop items off and return
+- Peek() - look at last element added to stack without removing
+
+## Language Support for Stacks
+
+| Language    | Support                   |
+| ----------- | ------------------------- |
+| Java        | Stack (push / pop / peek) |
+| C#          | Stack (Push / Pop / Peek) |
+| Objective-C | use NSMutableArray        |
+| Ruby        | use Array (push / pop)    |
+| Python      | use lists (append / pop)  |
+| C++         | std::stack (push / pop)   |
