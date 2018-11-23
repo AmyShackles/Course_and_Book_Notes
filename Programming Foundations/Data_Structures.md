@@ -555,3 +555,121 @@ Can behave like a stack or a queue
 Behind the scenes, most associative arrays are implemented using a hash table
 
 To understand a hash table, we first need to understand a hash.
+
+## Hash
+
+A way to take data, run it through a hash function that will manipulate that data and output a short, simplified reference generated from that data
+
+## Hashing is not encryption
+
+Hashing functions are typically one-way
+
+- Not invertible
+
+Information is lost when hashing
+
+## Hash Function Example
+
+```
+Public Class Person {
+    String firstname;
+    String lastname;
+    Data birthDate;
+
+    @Override
+    public int hashCode() {
+        // code to add all numeric values
+        // take letters in all the names, give them a 1-26 A-Z representation
+        // add all those numbers up
+        // take all the numbers in the date, add them up
+        // add the numbers from the name to the numbers in the date
+        // return number
+        return hashvalue;
+    }
+}
+
+/* Example:
+Sam         // 19 1 13 (33) +
+Jones       // 10 15 14 5 (44)
+            // (77)
+04/04/1990  // 04 04 1990 (1998)
+            // hash: 2075
+```
+
+## Hashing Rules
+
+- Hashing should be deterministic under the same context
+- Two objects that are **equal** should return the same hash
+- But the same hash _may_ also result from different objects
+
+## Hashing Collision
+
+When two objects result from different objects
+
+## Why do this?
+
+Being able to take a complex object and boil it down to a single integer representation is useful because you can use that hash value to get to a certain location.
+
+## Hash Table
+
+Typical way of implementing an associative array
+
+Benefit over linked lists and arrays is speed
+
+## Creating Hash Tables
+
+Created with multiple empty buckets
+
+Pass a key, value pair to hash table
+
+- Will take key and run it through the hash function, getting an integer out
+  - Depending on the hash table, may not use that integer, will reduce the number down related to the current size of the hash table so that it can attempt to evenly distribute the elements across however many buckets we have. (Could be as simple as using modulo)
+
+When we need to get an object from the hash table, it can run it through the hash function and then access the element based on the index result of the hash function
+
+## Managing Collisions
+
+Separate chaining:
+
+- Each bucket contains a collection like an array or linked list that can point to multiple entries
+
+Other ways of managing collisions:
+
+- Open-addressing
+- Cuckoo hashing
+- Hop-scotch
+- Robin Hood
+
+## Default Hash Behavior
+
+| Language    | Method        |
+| ----------- | ------------- |
+| Java        | hashCode()    |
+| C#          | GetHashCode() |
+| Objective-C | -hash         |
+| Ruby        | hash()        |
+| Python      | hash()        |
+| C++         | std::hash     |
+
+## Hashing in Custom Classes
+
+Default equality behavior checks identity
+
+Can be overridden to check internal state
+
+If you override the equality of your class, you have to redefine hashing
+
+- If two objects are _equal_ they must return the same hash
+
+This behavior is already provided for string objects
+
+## Language Support for Associative Arrays
+
+| Language    | Support                                         |
+| ----------- | ----------------------------------------------- |
+| Java        | HashTable, HashMap, ConcurrentHashMap           |
+| C#          | Hashtable, StringDictionary, Dictionary<>, etc. |
+| Objective-C | NSDictionary, NSMutableDictionary               |
+| Ruby        | Hash                                            |
+| Python      | dict                                            |
+| C++         | std::unordered_map                              |
