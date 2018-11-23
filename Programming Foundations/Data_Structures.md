@@ -706,3 +706,66 @@ To go to any specific object in a set, already need the object
 | C++         | std::set            |
 
 In C++, sets are implemented not with hash tables but with binary search trees
+
+## Tree Data Structure
+
+As with linked list, there is a starting point of the tree structure
+
+- Called root node
+
+Root node could contain value, also contains next/child nodes
+
+Child nodes contain next/child nodes
+
+Child nodes with the same parent are called siblings
+
+A node with no children is a leaf node
+
+![Binary Tree](BinaryTree.png)
+
+## Binary Search Tree(BST)
+
+A sorted/ordered tree
+
+A node can have 0 child nodes (leaf), 1, or 2.
+
+Every node will have two links, left child and right child, which may point to another node or to null
+
+A left child node must be less than its parent
+
+A right child node must be more than its parent
+
+## Binary Search Tree - Example
+
+![Binary Search Tree](BinarySearchTree.png)
+
+More nodes on right than left - Unbalanced BST
+
+- Means you would have to perform more checks to add/remove/access nodes on the right than on the left
+
+## Binary Search Tree Implementations
+
+Self-Balancing algorithms include:
+
+- Red-Black Trees
+- AVL Trees
+- Scapegoat Trees
+- Splay Trees
+
+## BST/ Hash Table Comparison
+
+| Binary Search Tree                          | Hash Table                     |
+| ------------------------------------------- | ------------------------------ |
+| Fast insertion, fast retrieval              | Fast insertion, fast retrieval |
+| Stays sorted - iterate elements in sequence | Retrieval not guaranteed order |
+
+## BST - Language Support
+
+| Language    | Implementation   |
+| ----------- | ---------------- |
+| Java        | TreeMap          |
+| C#          | SortedDictionary |
+| Python      | n/a              |
+| Ruby        | n/a              |
+| Objective-C | n/a              |
+| C++         | std::set         |
