@@ -806,3 +806,24 @@ Good for implementing priority queue
 | Ruby        | n/a                 |
 | Objective-C | CFBinaryHeap        |
 | C++         | std::priority_queue |
+
+## Introduction to Graphs
+
+Collection of nodes where any node can connect to any other node
+
+Any time you need to describe a complex system of interconnected points
+
+## Graphs: Terminology
+
+Vertices (nodes) <br />
+Links (Edges) <br />
+Directed - connections are one-way <br />
+Undirected - connections are two-way <br />
+Weighted graphs - associating a number with the connection of two vertices <br />
+
+## Graph Implementations
+
+- Singly Linked lists -> directed graphs
+- Doubly Linked Lists -> undirected graphs
+- Trees
+- Heaps
