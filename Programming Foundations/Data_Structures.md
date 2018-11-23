@@ -673,3 +673,36 @@ This behavior is already provided for string objects
 | Ruby        | Hash                                            |
 | Python      | dict                                            |
 | C++         | std::unordered_map                              |
+
+## Working with Sets
+
+A **set** is an unordered collection of objects
+
+No index, sequence, or key
+
+No duplicates (you cannot add the same object twice to the same set)
+
+Designed for fast lookup (checking membership of a collection)
+
+## Set Implementation with Hash Table
+
+Key is the value
+
+Checking membership, usually use a contains method
+
+Would never use a set to index to a specific object and retrieve it
+
+To go to any specific object in a set, already need the object
+
+## Language Support for Sets
+
+| Language    | Support             |
+| ----------- | ------------------- |
+| Java        | HashSet             |
+| C#          | HashSet             |
+| Objective-C | NSSet, NSMutableSet |
+| Ruby        | Set                 |
+| Python      | set / frozenset     |
+| C++         | std::set            |
+
+In C++, sets are implemented not with hash tables but with binary search trees
