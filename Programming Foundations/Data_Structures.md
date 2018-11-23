@@ -769,3 +769,40 @@ Self-Balancing algorithms include:
 | Ruby        | n/a              |
 | Objective-C | n/a              |
 | C++         | std::set         |
+
+## Heap Implementation
+
+Heaps are a collection of objects
+
+Items are always added top to bottom, left to right
+
+Heaps are implemented as binary trees
+
+## Min Heap or Max Heap?
+
+Min heap: Lowest value at the top
+
+- Rule: Child must always be larger than parent
+  - At each insertion, if child is smaller, swaps with parent
+  - Then checks if child is larger than new parent, swaps if not
+
+Max heap: Highest value at the top
+
+- Rule: Child must always be smaller than parent
+  - At each insertion, if child is larger, swaps with parent
+  - Then checks if child is smaller than new parent, swaps if not
+
+A heap is not a fully sorted data structure
+
+Good for implementing priority queue
+
+## Language Support for Heap
+
+| Language    | Support             |
+| ----------- | ------------------- |
+| Java        | PriorityQueue       |
+| C#          | n/a                 |
+| Python      | heapq               |
+| Ruby        | n/a                 |
+| Objective-C | CFBinaryHeap        |
+| C++         | std::priority_queue |
