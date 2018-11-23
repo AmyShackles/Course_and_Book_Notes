@@ -827,3 +827,91 @@ Weighted graphs - associating a number with the connection of two vertices <br /
 - Doubly Linked Lists -> undirected graphs
 - Trees
 - Heaps
+
+## Recap
+
+When thinking about data structures, think about the data you have
+
+- How much data do you have?
+- How often does it change?
+- Do you need to srot it?
+- Do you need to search it?
+
+### Arrays
+
+**Strengths**
+
+- Direct indexing
+- Easy to create and use
+
+**Weaknesses**
+
+- Sorting and searching
+- Inserting and deleting - particularly if not start/end
+
+### Linked Lists
+
+**Strengths**
+
+- Inserting and deleting elements
+- Iterating through the collection
+
+**Weaknesses**
+
+- Direct access
+- Searching and sorting (will require a complete traversal of list)
+
+### Stacks and Queues
+
+**Strengths**
+
+- Designed for LIFO/FIFO
+
+**Weaknesses**
+
+- Direct access
+- Searching and sorting
+
+One of the best uses of a stack in programming is when parsing code or expressions where you need to do something like validate you have the right amount of brackets/parentheses, etc.
+
+### Hash Tables
+
+**Strengths**
+
+- Speed of insertion and deletion
+- Speed of access
+
+**Weaknesses**
+
+- Some overhead
+- Retrieving in a sorted order
+- Searching for a specific value
+
+### Sets
+
+**Strengths**
+
+- Checking if an object is in a collection
+- Avoiding duplicates
+
+**Do not use for**
+
+- Direct access
+
+### Binary Search Trees
+
+**Strengths**
+
+- Speed of insertion and deletion
+- Speed of access
+- Maintain sorted order
+
+**Weaknesses**
+
+- Some overhead
+
+## Fixed Structures are Faster / Smaller
+
+Choose a fixed (immutable) version where possible
+
+- If you need an immutable version to load, consider then copying toa mutable version for lookup
