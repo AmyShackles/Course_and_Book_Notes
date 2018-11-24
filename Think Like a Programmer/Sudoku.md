@@ -15,15 +15,6 @@ A 9x9 grid is partially filled with single digits (from 1-9) and the player must
 
 ## Board
 
-<style type="text/css">
-.tg  {border-collapse:collapse;border-spacing:0;border:none;}
-.tg td{font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:0px;overflow:hidden;word-break:normal;}
-.tg th{font-family:Arial, sans-serif;font-size:14px;font-weight:normal;padding:10px 5px;border-style:solid;border-width:0px;overflow:hidden;word-break:normal;}
-.tg .tg-yj5y{background-color:#efefef;border-color:inherit;text-align:center;vertical-align:top}
-.tg .tg-34fe{background-color:#c0c0c0;border-color:inherit;text-align:center;vertical-align:top}
-.tg .tg-c3ow{border-color:inherit;text-align:center;vertical-align:top}
-.tg .tg-jnby{background-color:#c0c0c0;border-color:#333333;text-align:center;vertical-align:top}
-</style>
 <table class="tg">
   <tr>
     <th class="tg-yj5y"></th>
@@ -239,15 +230,7 @@ A 9x9 grid is partially filled with single digits (from 1-9) and the player must
 
 44. [0, 8] has to be 5 because that's the only number missing from Col 8
 
-<style type="text/css">
-.tg  {border-collapse:collapse;border-spacing:0;border:none;}
-.tg td{font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:0px;overflow:hidden;word-break:normal;}
-.tg th{font-family:Arial, sans-serif;font-size:14px;font-weight:normal;padding:10px 5px;border-style:solid;border-width:0px;overflow:hidden;word-break:normal;}
-.tg .tg-yj5y{background-color:#efefef;border-color:inherit;text-align:center;vertical-align:top}
-.tg .tg-34fe{background-color:#c0c0c0;border-color:inherit;text-align:center;vertical-align:top}
-.tg .tg-c3ow{border-color:inherit;text-align:center;vertical-align:top}
-.tg .tg-jnby{background-color:#c0c0c0;border-color:#333333;text-align:center;vertical-align:top}
-</style>
+
 <table class="tg">
   <tr>
     <th class="tg-yj5y"></th>
