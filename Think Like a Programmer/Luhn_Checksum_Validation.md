@@ -248,3 +248,7 @@ if (checksum % 10 == 0) {
     cout << "Checksum is not divisible by 10.  Invalid. \n";
 }
 ```
+
+Could have used (position % 2 == 1) but it's more confusing to read - better to say "if position - 1 is even, use the even checksum" than it is to say "If position is odd, use the even checksum".
+
+It is always better to take more steps than to try to do too much at once, even if some steps seem trivial.
