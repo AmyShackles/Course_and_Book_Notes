@@ -79,3 +79,300 @@ d) Remainder
 e) Decoded character or arrow pointing to new mode
 
 f) Mode switching to
+
+We already know how to read character by character until we reach the end of the line because we did that with the Luhn Checksum problem - reading character by character until we come across the ASCII value for end-of-line (10).
+
+### Convert a series of characters representing a number to an integer
+
+We know how to convert 0-9, but how do we extend that to apply to multidigit numbers?
+
+Consider a two-diigit numbr. In a two-digit number, the first digit is the tens digit so you can multiply by 10 and then add that to the second digit (ones place).
+
+Example: 35 would be integers 3 and 5 and overall integer would be computed by 3 \* 10 + 5
+
+```
+cout << "Enter a two-digit number: ";
+char digitChar1 = cin.get();
+char digitChar2 = cin.get();
+int digit1 = digitChar1 - '0';
+int digit2 = digitChar2 - '0';
+int overallNumber = digit1 * 10 + digit2;
+cout << "That number as an integer: " << overallNumber << "\n";
+```
+
+While the above code works, it won't be very useful in extending past two-digit numbers because we would exponentially increase the number of variables necessary to accomplish the task. We need to reduce:
+
+```
+cout << "Enter a two-digit number: ";
+char digitChar = cin.get();
+int overallNumber = (digitChar - '0') * 10;
+digitChar = cin.get();
+overallNumber += (digitChar - '0');
+cout << "That number as an integer: " << overallNumber << "\n";
+```
+
+How do we know which multiplier to use for each digit before adding to the running total?
+
+### Problem: Reading a Number with 3 or 4 Digits:
+
+Write a program to read a number character by character and convert it to an integer, using just one char variable and one int variable. The number will have either 3 or 4 digits.
+
+### Problem: Reading a Number with 3 or 4 Digits, Further Simplified:
+
+Write a program to read a number character by character and convert it to an integer, using just one char variable and two int variables. The number will have either 3 or 4 digits.
+
+```
+cout << "Enter a three-digit or four-digit number: ";
+char digitChar = cin.get();
+int threeDigitNum = (digitChar - '0') * 100;
+int fourDigitNum = (digitChar - '0') * 1000;
+digitChar = cin.get();
+threeDigitNum += (digitChar - '0') * 10;
+fourDigitNum += (digitChar - '0') * 100;
+digitChar = cin.get();
+threeDigitNum += (digitChar - '0');
+fourDigitNum += (digitChar - '0') * 10;
+digitChar = cin.get();
+if (digitChar == 10) {
+    cout << "Number entered: " << threeDigitNum << "\n";
+} else {
+    fourDigitNum += (digitChar - '0');
+    cout << "Number entered: " << fourDigitNum << "\n";
+}
+```
+
+In general, since the multiplers for fourDigitNum are 10 times those of threeDigitNum, the former would always be 10 times the latter.
+
+```
+cout << "Enter a three-digit or four-digit number: ";
+char digitChar = cin.get();
+int number = (digitChar - '0') * 100;
+digitChar = cin.get();
+number += (digitChar - '0') * 10;
+digitChar = cin.get();
+number += (digitChar - '0');
+digitChar = cin.get();
+if (digitChar == 10) {
+    cout << "Number entered: " << number << "\n";
+} else {
+    number = number * 10 + (digitChar - '0');
+    cout << "Number entered: " << number << "\n";
+}
+```
+
+Now we have an exploitable pattern.
+
+To extend to use 5-digit values, you would repeat the process for reading the fourth character instead of displaying the result immediately -> Read the 5th character, check to see if it's an end-of-line. If so, display previous computed number. If not, multiply the computed number by 10 and add the current character to it.
+
+```
+cout << "Enter a number with three, four, or five digits: ";
+char digitChar = cin.get();
+int number = (digitChar - '0') * 100;
+digitChar = cin.get();
+number += (digitChar - '0') * 10;
+digitChar = cin.get();
+if (digitChar == 10) {
+    cout << "Number entered: " << number << "\n";
+} else {
+    number = number * 10 + (digitChar - '0');
+    digitChar = cin.get();
+    if (digitChar == 10) {
+        cout << "Number enetered: " << number << "\n";
+    } else {
+        number = number * 10 + (digitChar - '0');
+        cout << "Number entered: " << number << "\n";
+    }
+}
+```
+
+Pattern: if the next value is a digit, multiply the running total by 10 before adding the integer digit value of the character.
+
+```
+cout << "Enter a number with as many digits as you please: ";
+char digitChar = cin.get();
+int number = (digitChar - '0');
+digitChar = cin.get();
+while (digitChar != 10) {
+    number = number * 10 + (digitChar - '0');
+    digitChar = cin.get();
+}
+cout << "Number entered: " << number << "\n";
+```
+
+This handles the conversion of one series of characters, but the main problem is going to be working with a list of comma-separated characters.
+
+For 101, 22[EOL] (end of line), we would need to check for either a comma or the end of the line, then place code that processes one number inside a larger loop that continues until all values are read. The inner loop should stop for EOL and commas. The outer loop should only stop for EOL.
+
+```
+cout << "Enter a number: ";
+char digitChar;
+do {
+    digitChar = cin.get();
+    int number = (digitChar - '0');
+    digitChar = cin.get();
+    while ((digitChar != 10) && (digitChar != ',')) {
+        number = number * 10 + (digitChar - '0');
+        digitChar = cin.get();
+    }
+    cout << "Number entered: " << number << "\n";
+} while (digitChar != 10);
+```
+
+Note: Rembmer not to include spaces when entering values.
+
+#### Now we can focus on processing individual numbers!
+
+Converting a number 1-26 to a letter A-Z. This is like the opposite of what we did to get the individual digit characters to their integer equivalents. If we subtract the character code '0' to translate from 0-9 character range to 0-9 integer range, we should be able to add a character code to translate from 1-26 to A-Z. What if we add 'A'?
+
+```
+cout << "Enter a number 1-26: ";
+int number;
+cin >> number;
+char outputCharacter;
+outputCharacter = number + 'A';
+cout << "Equivalent symbol: " << outputCharacter << "\n";
+```
+
+This results in an off-by-one error - namely, 1 gives you B, 2 gives you C, etc. So what you really need is number + 'A' - 1;
+
+#### Convert 1-26 to A-Z:
+
+```
+cout << "Enter a number 1-26: ";
+int number;
+cin >> number;
+char outputCharacter;
+outputCharacter = number + 'A' - 1;
+cout << "Equivalent symbol: " << outputCharacter << "\n";
+```
+
+#### Convert 1-26 to a-z:
+
+```
+cout << "Enter a number 1-26: ";
+int number;
+cin >> number;
+char outputCharacter;
+outputCharacter = number + 'a' - 1;
+cout << "Equivalent symbol: " << outputCharacter << "\n";
+```
+
+#### Punctuation
+
+Punctuation is harder because it's not in ASCII order and so can't be translated dynamically. Instead, a brute force method is required:
+
+```
+cout << "Enter a number 1-8: ";
+int number;
+cin >> number;
+char outputCharacter;
+switch (number) {
+    case 1: outputCharacter = '!'; break;
+    case 2: outputCharacter = '?'; break;
+    case 3: outputCharacter = ','; break;
+    case 4: outputCharacter = '.'; break;
+    case 5: outputCharacter = ' '; break;
+    case 6: outputCharacter = ';'; break;
+    case 7: outputCharacter = '"'; break;
+    case 8: outputCharacter = '\''; break;
+}
+cout << "Equivalent symbol: " << outputCharacter << "\n";
+```
+
+#### Switching Modes
+
+We need a variable to store the current mode. It could be an integer, but it's more readable as an enumeration. Rule of thumb: If a variable is only tracking state and there is no inherent meaning to any particular value, an enumeration is a good idea. Enum allows us to know what the mode is without having to decode it (as we would have to if it were an arbitrary value to represent each mode).
+
+```
+enum modeType {UPPERCASE, LOWERCASE, PUNCTUATION};
+int number;
+modeType mode = UPPERCASE;
+cout << "Enter some numbers ending with -1. ";
+do {
+    cin >> number;
+    cout << "Number read: " << number;
+    switch (mode) {
+        case UPPERCASE:
+            number = number % 27;
+            cout << ". Modulo 27." << number << ". ";
+            if (number == 0) {
+                cout << "Switch to Lowercase";
+                mode = LOWERCASE;
+            }
+            break;
+        case LOWERCASE:
+            number = number % 27;
+            cout << ". Modulo 27 " << number << ". ";
+            if (number == 0) {
+                cout << "Switch to Punctuation";
+                mode = PUNCTUATION;
+            }
+            break;
+        case PUNCTUATION:
+            number = number % 9;
+            cout << ". Modulo 9: " << number << ". ";
+            if (number == 0) {
+                cout << "Switch to Uppercase.";
+                mode = UPPERCASE;
+            }
+            break;
+    }
+    cout << "\n";
+} while (number != -1);
+```
+
+### Putting it all Together
+
+```
+char outputCharacter;
+enum modeType {UPPERCASE, LOWERCASE, PUNCTUATION};
+modeType mode = UPPERCASE;
+char digitChar;
+cout << "Enter numbers to decode: ";
+do {
+    digitChar = cin.get();
+    int number = (digitChar - '0');
+    digitChar = cin.get();
+    while ((digitChar != 10) && (digitChar != ',')) {
+        number = number * 10 + (digitChar - '0');
+        digitChar = cin.get();
+    }
+    switch(mode) {
+        case UPPERCASE:
+            number = number % 27;
+            outputCharacter = number + 'A' - 1;
+            if (number == 0) {
+                mode = LOWERCASE;
+                continue;
+            }
+            break;
+        case LOWERCASE:
+            number = number % 27;
+            outputCharacter = number + 'a' - 1;
+            if (number == 0) {
+                mode = PUNCTUATION;
+                continue;
+            }
+            break;
+        case PUNCTUATION:
+            number = number % 9;
+            switch (number) {
+                case 1: outputCharacter = '!'; break;
+                case 2: outputCharacter = '?'; break;
+                case 3: outputCharacter = ','; break;
+                case 4: outputCharacter = '.'; break;
+                case 5: outputCharacter = ' '; break;
+                case 6: outputCharacter = ';'; break;
+                case 7: outputCharacter = '"'; break;
+                case 8: outputCharacter = '\''; break;
+            }
+            if (number == 0) {
+                mode = UPPERCASE;
+                continue;
+            }
+            break;
+    }
+    cout << outputCharacter;
+} while (digitChar != 10);
+cout << "\n";
+```
