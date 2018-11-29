@@ -171,6 +171,8 @@ int number = (digitChar - '0') * 100;
 digitChar = cin.get();
 number += (digitChar - '0') * 10;
 digitChar = cin.get();
+number += (digitChar - '0');
+digitChar = cin.get();
 if (digitChar == 10) {
     cout << "Number entered: " << number << "\n";
 } else {
@@ -199,6 +201,32 @@ while (digitChar != 10) {
 cout << "Number entered: " << number << "\n";
 ```
 
+##### Explanation (Given input: 12356)
+
+```
+Outside while loop:
+First pass:         number = (digitChar - '0')
+                    digitChar - '0' = 1
+                    number = 1
+
+Inside while loop:
+Second pass:        number = number * 10 + (digit - '0')
+                    digitChar - '0' = 2
+                    number = 12 (1 * 10 + 2)
+
+Third pass:         number = number * 10 + (digit - '0')
+                    digitChar - '0' = 3
+                    number = 123 (12 * 10 + 3)
+
+Fourth pass:        number = number * 10 + (digit - '0')
+                    digitChar - '0' = 5
+                    number = 1235 (123 * 10 + 5)
+
+Fifth pass:         number = number * 10 + (digit - '0')
+                    digitChar - '0' = 6
+                    number = 12356 (1235 * 10 + 6)
+```
+
 This handles the conversion of one series of characters, but the main problem is going to be working with a list of comma-separated characters.
 
 For 101, 22[EOL] (end of line), we would need to check for either a comma or the end of the line, then place code that processes one number inside a larger loop that continues until all values are read. The inner loop should stop for EOL and commas. The outer loop should only stop for EOL.
@@ -218,7 +246,7 @@ do {
 } while (digitChar != 10);
 ```
 
-Note: Rembmer not to include spaces when entering values.
+Note: Remember not to include spaces when entering values.
 
 #### Now we can focus on processing individual numbers!
 
