@@ -1,3 +1,5 @@
+
+
 #include <iostream>
 using std::cin;
 using std::cout;
@@ -6,57 +8,51 @@ using std::cout;
 // If entering a hexadecimal number, preface with 0x (e.g.: 0xDEADBEEF)
 // If entering an octal number, preface with 0 (e.g.: 077)
 
-int inferBase(char *string) {
-  if (string[0] == '0') {
-    if (string[1] == 'b') {
-      return 2;
-    } else if (string[1] == 'x') {
-      return 16;
-    } else {
-      return 8;
-    }
+int inferBase(char digitChar) {
+  if (digitChar == 'b') {
+    return 2;
+  } else if (digitChar == 'x') {
+    return 16;
   } else {
-    return 10;
+    return 8;
   }
 }
 
-char *parseString(char digitChar) {
-  char *string = new char[100];
-  int i = 0;
-  while (digitChar != '\n') {
-    string[i] = digitChar;
-    digitChar = cin.get();
-    i++;
-  }
-  string[i] = '\0';
-  cout << "String: " << string << "\n";
-  return string;
-}
-
-long long convertToInt() {
-  char digitChar = cin.get();
-  char *string = parseString(digitChar);
-  int base = inferBase(string);
-  long long number = 0;
-  int i = 0;
-  if (base == 16 || base == 2) {
-    // Need to get next digit for base 16 and base 2
-    // ... because current digit is still just information about base
-    i = 2;
-  } else if (base == 8) {
-    i = 1;
-  }
-  while (string[i] != '\0') {
-    string[i] = string[i] - '0';
+long long digitValue(char digitChar) {
+  if (digitChar > '9') {
     // The capitalized alphabet is offset from '0' - '9' by 7 numbers.
     // If we subtract '0' from a letter, we're 7 digits off from where we should
     // be For example, 'B' in ASCII is 66, '0' is 48 66 - 48 = 18, but 'B'
     // represents 11.
-    if (string[i] > 9) {
-      string[i] = string[i] - 7;
-    }
-    number = number * base + string[i];
-    i++;
+    digitChar = (digitChar - '0') - 7;
+  } else {
+    digitChar = digitChar - '0';
+  }
+  return digitChar;
+}
+
+long long readNum() {
+  int base;
+  long long number = 0;
+  char digitChar = cin.get();
+
+  if (digitChar == '0') {
+    // Have to read next digit here or we'll lose an octal's first digit
+    digitChar = cin.get();
+    base = inferBase(digitChar);
+  } else {
+    base = 10;
+  }
+  if (base == 16 || base == 2) {
+    // Need to get next digit for base 16 and base 2
+    // ... because current digit is still just information about base
+    digitChar = cin.get();
+  }
+  number = digitValue(digitChar);
+  digitChar = cin.get();
+  while (digitChar != '\n') {
+    number = number * base + digitValue(digitChar);
+    digitChar = cin.get();
   }
   return number;
 }
@@ -105,7 +101,7 @@ int main() {
           "number, preface with '0b'.\nIf entering a hexadecimal number, "
           "preface with '0x'.\nIf entering an octal number, preface with "
           "'0'\n>> ";
-  long long integer;
+  long long dec;
   char *binary;
   char *ternary;
   char *quaternary;
@@ -117,31 +113,34 @@ int main() {
   char *hexadecimal;
   char *vigesimal;
   char *base36;
-  int number = 0;
-  int base;
 
-  integer = convertToInt();
-  binary = intToBaseString(integer, 2);
-  ternary = intToBaseString(integer, 3);
-  quaternary = intToBaseString(integer, 4);
-  quinary = intToBaseString(integer, 5);
-  senary = intToBaseString(integer, 6);
-  octal = intToBaseString(integer, 8);
-  decimal = intToBaseString(integer, 10);
-  duodecimal = intToBaseString(integer, 12);
-  hexadecimal = intToBaseString(integer, 16);
-  vigesimal = intToBaseString(integer, 20);
-  base36 = intToBaseString(integer, 36);
+  // Need to keep this first test of whether or not the digitChar is '0' here
+  // because if it's moved to the inferBase function,
+  // we lose access to the first real index of an octal value
+  // (as it will only exist in inferBase)
 
-  cout << "Number entered (in decimal): " << decimal << "\n";
-  cout << "Number entered (in binary): " << binary << "\n";
-  cout << "Number entered (in ternary): " << ternary << "\n";
-  cout << "Number entered (in quaternary): " << quaternary << "\n";
-  cout << "Number entered (in quinary): " << quinary << "\n";
-  cout << "Number entered (in senary): " << senary << "\n";
-  cout << "Number entered (in octal): " << octal << "\n";
-  cout << "Number entered (in duodecimal): " << duodecimal << "\n";
-  cout << "Number entered (in hexadecimal): " << hexadecimal << "\n";
-  cout << "Number entered (in vigesimal): " << vigesimal << "\n";
-  cout << "Number entered (in base 36): " << base36 << "\n";
+  dec = readNum();
+  binary = intToBaseString(dec, 2);
+  ternary = intToBaseString(dec, 3);
+  quaternary = intToBaseString(dec, 4);
+  quinary = intToBaseString(dec, 5);
+  senary = intToBaseString(dec, 6);
+  octal = intToBaseString(dec, 8);
+  decimal = intToBaseString(dec, 10);
+  duodecimal = intToBaseString(dec, 12);
+  hexadecimal = intToBaseString(dec, 16);
+  vigesimal = intToBaseString(dec, 20);
+  base36 = intToBaseString(dec, 36);
+
+  cout << "Number entered in binary (base 2): " << binary << "\n";
+  cout << "Number entered in ternary (base 3): " << ternary << "\n";
+  cout << "Number entered in quaternary (base 4): " << quaternary << "\n";
+  cout << "Number entered in quinary (base 5): " << quinary << "\n";
+  cout << "Number entered in senary (base 6): " << senary << "\n";
+  cout << "Number entered in octal (base 8): " << octal << "\n";
+  cout << "Number entered in decimal (base 10): " << decimal << "\n";
+  cout << "Number entered in duodecimal (base 12): " << duodecimal << "\n";
+  cout << "Number entered in hexadecimal (base 16): " << hexadecimal << "\n";
+  cout << "Number entered in vigesimal (base 20): " << vigesimal << "\n";
+  cout << "Number entered in base 36: " << base36 << "\n";
 }
