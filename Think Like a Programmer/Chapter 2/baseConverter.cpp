@@ -1,6 +1,6 @@
-
-
+#include <iomanip>
 #include <iostream>
+#include <stdlib.h>
 using std::cin;
 using std::cout;
 
@@ -18,7 +18,7 @@ int inferBase(char digitChar) {
   }
 }
 
-long long digitValue(char digitChar) {
+unsigned long long digitValue(char digitChar) {
   if (digitChar > '9') {
     // The capitalized alphabet is offset from '0' - '9' by 7 numbers.
     // If we subtract '0' from a letter, we're 7 digits off from where we should
@@ -31,9 +31,9 @@ long long digitValue(char digitChar) {
   return digitChar;
 }
 
-long long readNum() {
+unsigned long long readNum() {
   int base;
-  long long number = 0;
+  unsigned long long number = 0;
   char digitChar = cin.get();
 
   if (digitChar == '0') {
@@ -54,6 +54,11 @@ long long readNum() {
     number = number * base + digitValue(digitChar);
     digitChar = cin.get();
   }
+  // If the number is greater than what can be stored in 64 bits, the program
+  // cannot operate on it
+  if (number > 18446744073709551615UL) {
+    return 0;
+  }
   return number;
 }
 
@@ -70,8 +75,8 @@ char *reverseInPlace(char *str, int endIndex) {
   return str;
 }
 
-char *intToBaseString(long long number, int base) {
-  long long remainder;
+char *intToBaseString(unsigned long long number, int base) {
+  unsigned long long remainder;
   char *str = new char[100];
   char *string;
   int i = 0;
@@ -97,11 +102,11 @@ char *intToBaseString(long long number, int base) {
 
 int main() {
   cout << "Enter a number in binary, octal, hexadecimal, or decimal.\nNotes: "
-          "Can only handle numbers up to 2147483,647.\nIf entering a binary "
-          "number, preface with '0b'.\nIf entering a hexadecimal number, "
-          "preface with '0x'.\nIf entering an octal number, preface with "
-          "'0'\n>> ";
-  long long dec;
+          "Can only handle numbers up to 18,446,744,073,709,551,615.\nIf "
+          "entering a binary number, preface with '0b'.\nIf entering a "
+          "hexadecimal number, preface with '0x'.\nIf entering an octal "
+          "number, preface with '0'\n>> ";
+  unsigned long long dec;
   char *binary;
   char *ternary;
   char *quaternary;
@@ -120,6 +125,11 @@ int main() {
   // (as it will only exist in inferBase)
 
   dec = readNum();
+  if (dec == 0) {
+    cout << "\nThe number you entered is larger than 64 bits and cannot be "
+            "converted.\n";
+    exit(1);
+  }
   binary = intToBaseString(dec, 2);
   ternary = intToBaseString(dec, 3);
   quaternary = intToBaseString(dec, 4);
@@ -132,15 +142,16 @@ int main() {
   vigesimal = intToBaseString(dec, 20);
   base36 = intToBaseString(dec, 36);
 
-  cout << "Number entered in binary (base 2): " << binary << "\n";
-  cout << "Number entered in ternary (base 3): " << ternary << "\n";
-  cout << "Number entered in quaternary (base 4): " << quaternary << "\n";
-  cout << "Number entered in quinary (base 5): " << quinary << "\n";
-  cout << "Number entered in senary (base 6): " << senary << "\n";
-  cout << "Number entered in octal (base 8): " << octal << "\n";
-  cout << "Number entered in decimal (base 10): " << decimal << "\n";
-  cout << "Number entered in duodecimal (base 12): " << duodecimal << "\n";
-  cout << "Number entered in hexadecimal (base 16): " << hexadecimal << "\n";
-  cout << "Number entered in vigesimal (base 20): " << vigesimal << "\n";
-  cout << "Number entered in base 36: " << base36 << "\n";
+  cout << "\nThe number you entered in: \n\n";
+  cout << "Binary (base 2):\t\t\t" << binary << "\n";
+  cout << "Ternary (base 3):\t\t\t" << ternary << "\n";
+  cout << "Quaternary (base 4):\t\t" << quaternary << "\n";
+  cout << "Quinary (base 5):\t\t\t" << quinary << "\n";
+  cout << "Senary (base 6):\t\t\t" << senary << "\n";
+  cout << "Octal (base 8):\t\t\t\t" << octal << "\n";
+  cout << "Decimal (base 10):\t\t\t" << decimal << "\n";
+  cout << "Duodecimal (base 12):\t\t" << duodecimal << "\n";
+  cout << "Hexadecimal (base 16):\t\t" << hexadecimal << "\n";
+  cout << "Vigesimal (base 20):\t\t" << vigesimal << "\n";
+  cout << "Base 36:\t\t\t\t\t" << base36 << "\n";
 }
