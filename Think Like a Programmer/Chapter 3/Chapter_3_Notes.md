@@ -140,3 +140,114 @@ for (int i = 0; i < ARRAY_SIZE; i++) {
     if (vendorPayments[i] < 0) countNegative__;
 }
 ```
+
+## Problem: Finding the Mode
+
+In statistics, the mode of a set of values is the value that appears most often. Write code that processes an array of survey data, where survey takers have responded to a question with a number in the range 1-10 to determine the mode of the data set. For our purpose, if multiple modes exist, any may be chosen.
+
+#### Pseudo Code
+
+```
+int mostFrequent = ?;
+int highestFrequency = ?;
+int currentFrequency = 0;
+for (int i = 0; i < ARRAY_SIZE; i++) {
+    currentFrequency++;
+    if (surveyData[i] IS LAST OCCURRENCE OF A VALUE) {
+        if (currentFrequency > highestFrequency) {
+            highestFrequency = currentFrequency;
+            mostFrequent = surveyData[i];
+        }
+        currentFrequency = 0;
+    }
+}
+```
+
+#### Completed:
+
+```
+int mostFrequent;
+int highestFrequency = 0;
+int currentFrequency = 0;
+for (int i = 0; i < ARRAY_SIZE; int) {
+    currentFrequency++;
+    // if (surveyData[i] IS LAST OCCURRENCE OF A VALUE)
+    if (i == ARRAY_SIZE - 1 || surveyData[i] != surveyData[i+1]) {
+        if (currentFrequency > highestFrequency) {
+            highestFrequency = currentFrequency;
+            mostFrequent = surveyData[i];
+        }
+        currentFrequency = 0;
+    }
+}
+// using qsort with earlier compareFunc to group in order
+qsort(surveyData, ARRAY_SIZE, sizeof(int), compareFunc);
+```
+
+**Refactoring**: Improving working code - not changing what it does, but how it does it
+
+**Histogram**: A graph showing how often different values appear in an underlying dataset.
+
+```
+const int MAX_RESPONSE = 10;
+int histogram[MAX_RESPONSE];
+for (int i = 0; i < MAX_RESPONSE; i++) {
+    histogram[i] = 0;
+}
+for (int i = 0; i < ARRAY_SIZE; i++) {
+    histogram[surveyData[i] - 1]++;
+}
+```
+
+With histogram data in place, we can write the rest. Note the histogram code was written separately, so that it could be tested separately.
+
+**No time is saved by writing all of the code at once in a situation where the problem is easily separated into parts that can be individually written and tested**
+
+```
+int mostFrequent = 0;
+for(int i = 1; i < MAX_RESPONSE; i++) {
+    if (histogram[i] > histogram[mostFrequent]) mostFrequent++;
+}
+mostFrequent++;
+```
+
+Writing an original (to the programmer) program is a learning process and can't be expected to always progress in a straight line. A long journey is not a waste of time if you learned something from it that you wouldn't have learned by going the short way.
+
+## Arrays of Fixed Data
+
+It's often useful to create an array where values never change after initialization to allow a simple loop or direct array lookup to replace a whole block of control statements.
+
+#### Example: Replacing the punctuation switch for Decode a Message
+
+```
+const char punctuation[8] = {'!', '?', ',', '.', ' ', ';', '"', '\''};
+outputCharacter = punctuation[number - 1];
+```
+
+#### Example: If we then had to encode using same algorithm
+
+```
+const int ARRAY_SIZE = 8;
+int targetPos = 0;
+while (punctuation[targetPos] != targetValue && targetPos < ARRAY_SIZE) targetPos++;
+int punctuationCode = targetPos + 1;
+```
+
+Suppose writing program to compute cost of a business license in a state where the license cost varies as the gross sales figures of the business varies.
+
+```
+const int NUM_CATEGORIES = 4;
+const double categoryThresholds[NUM_CATEGORIES] = {0.0, 5000.0, 150000.0, 5000000.0};
+const double licenseCost[NUM_CATEGORIES] = {80.0, 200.0, 1000.0, 5000.0};
+category = 0;
+while (category < NUM_CATEGORIES && categoryThresholds[category] <= grossSales) {
+    category++;
+}
+cost = licenseCost[category - 1];
+```
+
+1. First array stores gross sales threshold for each business category
+2. Second array stores business license cost per category
+3. Initialize category to 0
+4. Search through categoryThresholds array, stopping when threshold exceeds the gross sales or when out of categories
+5. Use category to reference the license cost from licenseCost array.
