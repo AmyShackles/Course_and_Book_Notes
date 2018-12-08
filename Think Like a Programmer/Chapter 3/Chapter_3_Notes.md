@@ -251,3 +251,98 @@ cost = licenseCost[category - 1];
 3. Initialize category to 0
 4. Search through categoryThresholds array, stopping when threshold exceeds the gross sales or when out of categories
 5. Use category to reference the license cost from licenseCost array.
+
+## Non-Scalar Arrays
+
+Usually the use of compound data types doesn't have to complicate our thinking about array processing because it just involves one data member of the struct or class and you can ignore the other parts of the data structure.
+
+Sometimes, the use of compound data types does require us to make some changes to our approach.
+
+For example, consider the problem of finding the highest of a set of student grades. Suppose that instead of an array of int, we have an array of data structures, each representing a student record:
+
+```
+struct student {
+    int grade;
+    int studentID;
+    string name;
+};
+```
+
+Always easy to initialize an array, even when a struct!
+
+```
+const int ARRAY_SIZE = 10;
+student sutdentArray[ARRAY_SIZE] = {
+    {87, 10001, "Fred"},
+    {28, 10002, "Tom"},
+    {100, 10003, "Alistair"},
+    {75, 10004, "Sasha"},
+    {84, 10005, "Erin"},
+    {98, 10006, "Belinda"},
+    {75, 10007, "Leslie"},
+    {70, 10008, "Candy"},
+    {81, 10009, "Aretha"},
+    {68, 10010, "Veronica"},
+};
+```
+
+To get the highest grades:
+
+```
+int highest = studentArray[0].grade;
+for (int i = 1, i < ARRAY_SIZE; i++) {
+    if (studentArray[i].grade > highest) highest = studentArray[i].grade;
+}
+```
+
+In order to retrieve any data for the highest scoring student (name, id, grade), it would be better to track the array position rather than the highest grade:
+
+```
+int highPosition = 0;
+for (int i = 0; i < ARRAY_SIZE; i++) {
+    if (studentArray[i].grade > studentArray[highPosition].grade) highPosition = i;
+}
+```
+
+## Multidimensional Arrays
+
+Business license example from earlier:
+
+```
+const double licenseData[2][numberCategories] = {
+    {0.0, 5000.0, 150000.0, 5000000.0},
+    {50.0, 200.0, 1000.0, 50000.0}
+};
+```
+
+Using a multidimensional array usually lowers readability, and isn't really worth it. However, if you have multiple things you need to compare in order to compute a statistic, it may be better to have a multidimensional array in order to process the entire array at once.
+
+Example:
+
+```
+const int NUM_AGENTS = 3;
+const int NUM_MONTHS = 12;
+int sales[NUM_AGENTS][NUM_MONTHS] = {
+    {1856, 498, 30924, 87478, 328, 2653, 387, 3754, 387587, 2873, 276, 32}
+    {5685, 5456, 3758, 6453, 98357, 2334, 1233, 2333, 3222, 1123, 13443, 3443},
+    {34433, 343566, 24567, 35453, 1343, 1435, 1334, 1254, 454, 3453, 7853, 4343}
+}
+
+int highestSales = sales[0][0];
+for (int agent = 0; agent < NUM_AGENTS; agent++) {
+    for (int month = 0; month < NUM_MONTHS; month++) {
+        if (sales[agent][month] > highestSales)
+            highestSales = sales[agent][month];
+    }
+}
+```
+
+It may occur to you that the first time through the nested loops, both of our loop counters will be 0, so we will be comparing this initial value of highestSales to itself. This doesn't affect the outcome, but sometimes novice programmers will attempt to avoid this tiny inefficiency by putting in a second if statement in the inner loop body:
+
+```
+if (agent != 0 || month != 0)
+    if (sales[agent][month] > highestSales)
+        highestSales = sales[agent][month];
+```
+
+This, however, is considerably _less_ efficient than the previous version because we would be performing 50 extra comparisons while avoiding only one.
