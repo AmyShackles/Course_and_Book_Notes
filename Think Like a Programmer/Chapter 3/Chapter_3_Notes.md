@@ -346,3 +346,119 @@ if (agent != 0 || month != 0)
 ```
 
 This, however, is considerably _less_ efficient than the previous version because we would be performing 50 extra comparisons while avoiding only one.
+
+```
+double arrayAverage(int intArray[], int ARRAY_SIZE) {
+    double sum = 0;
+    for (int i = 0; i < ARRAY_SIZE; i++) {
+        sum += intArray[i];
+    }
+    double average = sum / ARRAY_SIZE;
+    return average;
+}
+
+double highestAverage = arrayAverage(sales[10], 12);
+for (int agent = 1; agent < NUM_AGENTS; agent++) {
+    double agentAverage = arrayAverage(sales[agent], 12);
+    if (agentAverage > highestAverage) highestAverage = agentAverage;
+}
+
+cout << "Highest monthly average: " << highestAverage << "\n";
+```
+
+Because the direct relationship between arrays and addresses in C++, sales[agent] indicates the address of the first element of the specified row, which can then be used by our function as the base address of a one-dimensional array consisting of just that row.
+
+If the data you want to individually process isn't contiguous in the array initalizer, you've organized the data the wrong way.
+
+Because average monthly sales for the current agent is potentially referenced twice (once in the assignment statement and once in the conditional), temp variable eliminates the possibility of calling arrayAverage twice for the same agent data.
+
+```
+int ARRAY_SIZE;
+cout << "Number of survey responses: ";
+cin >> ARRAY_SIZE;
+int *surveyData = new int[ARRAY_SIZE];
+for (int i = 0; i < ARRAY_SIZE; i++) {
+    cout << "Survey response " << i + 1 << ": ";
+    cin >> surveyData[i];
+}
+```
+
+Using an array works in this situation because we know the size of the array at the start.
+
+Because it's dynamically allocated, we need to deallocate the surveyData using delete[].
+
+delete[] is used for arrays. It doesn't really matter with ints, but with objects, this ensures that objects are deleted before the array (so it's good practice to always use it when dealing with arrays).
+
+If you don't know the size of the array, you can use a vector, which works like an array but when a vector has filled its original size, you can use push_back to add further elements to the array:
+
+```
+vector<int> surveyData;
+surveyData.reserve(30);
+int surveyResponse;
+cout << "Enter next survey response or -1 to end: ";
+cin >> surveyResponse;
+while (surveyResponse != -1) {
+    surveyData.push_back(surveyResponse);
+    cout << "Enter next survey response or -1 to end: ";
+    cin >> surveyResponse;
+}
+
+int vectorSize = surveyData.size();
+const int MAX_RESPONSE = 10;
+int histogram[MAX_RESPONSE];
+for (int i = 0; i < MAX_RESPONSE; i++) {
+    histogram[i] = 0;
+}
+
+for (int i = 0; i < vectorSize; i++) {
+    histogram[surveyData[i] - 1]++;
+}
+int mostFrequent = 0;
+for (int i = 1; i < MAX_RESPONSE; i++) {
+    if (histogram[i] > histogram[mostFrequent])mostFrequent = i;
+}
+mostFrequent++;
+```
+
+_Note_: Reserve step isn't necessary but helps prevent vector from needing to resize as frequently.
+
+We may not need an array for survey data, only for histogram.
+
+We need a data structure only when we need to read in all the values before processing or need to process the values more than once. In this particular situation, neither condition is true.
+
+```
+const int MAX_RESPONSE = 10;
+int histogram[MAX_RESPONSE];
+for (int i = 0; i < MAX_RESPONSE; i++) {
+    histogram[i] = 0;
+}
+
+int surveyResponse;
+cout << "Enter new survey response or -1 to end: ";
+cin >> surveyResponse;
+while (surveyResponse != -1) {
+    histogram[surveyResponse - 1]++;
+    cout << "Enter next survey response or -1 to end: ";
+    cin >> surveyResponse;
+}
+int mostFrequent = 0;
+for (int i = 1; i < MAX_RESPONSE; i++) {
+    if (histogram[i] > histogram[mostFrequent])
+        mostFrequent = i;
+}
+mostFrequent++;
+```
+
+The vector version is inefficient in space because it stores values you don't need to store and inefficient in time because it adds an additional loop. In effect, it does more work without any corresponding benefit.
+
+**Performance tuning**: Systematic analysis and improvement of a program's efficiency in time and space.
+
+#### When to Choose an Array
+
+If you are sure you need to process data multiple times and have a good idea about the maximum size, the last criterion for deciding whether or not to use an array is random access.
+
+**Random access**: When it is possible to access any element at any time and it takes the same amount of time as accessing any other element.
+
+If you only need sequential access, you might think about using a different data structure.
+
+"Use arrays wisely, but don't let the perfect be the enemy of the good."
