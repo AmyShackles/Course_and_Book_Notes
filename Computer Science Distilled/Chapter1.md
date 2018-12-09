@@ -71,3 +71,125 @@ To negate ideas, use `!` operator (negation operator)
 |  ✓  | ❌  | ❌  |  ❌  |  ❌   |   ❌    |   ✓    |    ✓    |
 | ❌  |  ✓  |  ✓  |  ✓   |  ❌   |   ❌    |   ✓    |    ✓    |
 | ❌  | ❌  |  ✓  |  ✓   |   ✓   |   ❌    |   ❌   |   ❌    |
+
+### Boolean Algebra (Simplifies logical expressions)
+
+**Associativity**: Parentheses are irrelevant for sequences of AND or OR operations - can be calculated in any order.
+
+```
+A AND (B AND C) = (A AND B) AND C,
+A OR (B OR C) = (A OR B) OR C
+```
+
+**Distributivity**: ANDing after an OR is equivalent to ORing results of ANDs and vice versa
+
+```
+A AND (B OR C) = (A AND B) OR (A AND C)
+A OR (B AND C) = (A OR B) AND (A OR C)
+```
+
+**DeMorgan's Law**
+"It can't be summer and winter at once, so it's either not summer or not winter. And it's not summer and not winter if and only if it's not the case it's either summer or winter" Following this logic, ANDs can be transformed into ORs and vice versa:
+
+```
+!(A AND B) = !A OR !B,
+!A AND !B = !(A OR B)
+```
+
+### Problem: Hot Server
+
+A server crashes if it's overheating while the air conditioning is off. It also crashes if it's overheating and its chassis cooler fails. In which conditions does the server work?
+
+#### Modeling it in logical variables:
+
+```
+A:  Server overheats
+B:  Air conditioning is off
+C:  Chassis cooler fails
+D:  Server crashes
+
+(A AND B) OR (A AND C)->D
+
+Distributivity: A AND (B OR C)->D
+Server works when (!D)
+
+Contrapositive: !D->!(A AND (B OR C))
+
+DeMorgan to remove parens: !D->!A OR (B OR C)
+
+DeMorgan again: !D->!A OR (!B AND !C)
+
+Whenever the server works, either !A (it's not overheating)
+or !B AND !C (both air conditioning and chassis cooler are working)
+```
+
+### Truth Tables
+
+Columns for each variable, rows for possible combinations. One variable requires two rows, one for outcomes if true and one for if false.
+
+### Problem: Fragile System
+
+We have to create a database system with the following requirements:
+
+```
+I       If database is locked, we can save data
+II      A database lock on a full write queue cannot happen
+III     Either the write queue is full or the cache is loaded
+IV      If the cache is loaded, the database cannot be locked
+
+Is it possible?  Under which conditions will it work?
+```
+
+#### Model the database
+
+```
+A   The database is locked      I       A->B
+B   Able to save data           II      !(A AND C)
+C   Write queue is full         III     C OR D
+D   Cache is loaded             IV      D->!A
+```
+
+| State # | A   | B   | C   | D   | I   | II  | III | IV  | All four |
+| ------- | --- | --- | --- | --- | --- | --- | --- | --- | -------- |
+| 1       | X   | X   | X   | X   | ✓   | ✓   | X   | ✓   | X        |
+| 2       | X   | X   | X   | ✓   | ✓   | ✓   | ✓   | ✓   | ✓        |
+| 3       | X   | X   | ✓   | X   | ✓   | ✓   | ✓   | ✓   | ✓        |
+| 4       | X   | X   | ✓   | ✓   | ✓   | ✓   | ✓   | ✓   | ✓        |
+| 5       | X   | ✓   | X   | X   | ✓   | ✓   | X   | ✓   | X        |
+| 6       | X   | ✓   | X   | ✓   | ✓   | ✓   | ✓   | ✓   | ✓        |
+| 7       | X   | ✓   | ✓   | X   | ✓   | ✓   | ✓   | ✓   | ✓        |
+| 8       | X   | ✓   | ✓   | ✓   | ✓   | ✓   | ✓   | ✓   | ✓        |
+| 9       | ✓   | X   | X   | X   | X   | ✓   | X   | ✓   | X        |
+| 10      | ✓   | X   | X   | ✓   | X   | ✓   | ✓   | X   | X        |
+| 11      | ✓   | X   | ✓   | X   | X   | X   | ✓   | ✓   | X        |
+| 12      | ✓   | X   | ✓   | ✓   | X   | X   | ✓   | X   | X        |
+| 13      | ✓   | ✓   | X   | X   | ✓   | ✓   | X   | ✓   | X        |
+| 14      | ✓   | ✓   | X   | ✓   | ✓   | ✓   | ✓   | X   | X        |
+| 15      | ✓   | ✓   | ✓   | X   | ✓   | X   | ✓   | ✓   | X        |
+| 16      | ✓   | ✓   | ✓   | ✓   | ✓   | X   | ✓   | X   | X        |
+
+All requirements are met in states 2-4 and 6-8. In those states, A = False, so database can't ever be locked. The cache will not be loaded in states 3 and 7.
+
+### Test what you've learned by solving the Zebra Puzzle
+
+(http://code.energy/zebra-puzzle)
+
+#### Zebra Puzzle (15 clues, two questions):
+
+1. There are five houses
+2. The Englishman lives in the red house
+3. The Spaniard owns the dog
+4. The coffee is drunk in the green house
+5. The Ukranian drinks tea
+6. The green house is immediately to the right of the ivory house
+7. The Old Gold smoker owns snails
+8. Kools are smoked in the yellow house
+9. Milk is drunk in the middle house
+10. The Norwegian lives in the first house
+11. The man who smokes Chesterfields lives in the house4 next to the man with the fox
+12. Kools are smoked in the house next to the house where the horse is kept
+13. The Lucky Strike smoker drinks orange juice
+14. The Japanese smokes Parliaments
+15. The Norwegian lives next to the blue house
+
+Who drinks water? Who owns the zebra?
