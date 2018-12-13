@@ -12,16 +12,22 @@ struct student studentArray[] = {
     {87, 10001, "Fred"},
     {28, 10002, "Tom"},
     {100, 10003, "Alistair"},
-    // {75, 10004, "Sasha"},
-    // {84, 10005, "Erin"},
+    {75, 10004, "Sasha"},
+    {84, 10005, "Erin"},
     {98, 10006, "Belinda"},
     {75, 10007, "Leslie"},
-    // {70, 10008, "Candy"},
-    // {81, 10009, "Aretha"},
+    {70, 10008, "Candy"},
+    {81, 10009, "Aretha"},
+    {72, 10010, "Carlile"},
+    {250, 10011, "BreakingBellCurve"},
 };
 
 int w = sizeof(struct student);
 int size = sizeof(studentArray) / sizeof(studentArray[0]);
+int firstHalf[1024];
+int secondHalf[1024];
+
+int rawmedian = (sizeof(studentArray) / sizeof(studentArray[0])) / 2;
 
 int lowToHigh(const void *voidA, const void *voidB) {
   int a = (*(student *)voidA).grade;
@@ -35,116 +41,125 @@ int lowToHigh(const void *voidA, const void *voidB) {
   }
 }
 
-int mid() {
-  if ((size % 2) > 0) {
-    printf("Is the midpoint %d?\n", (size / 2));
-
-    return (size / 2);
+int isEven(int length) {
+  if ((length % 2) == 0) {
+    /* The length of the studentArray is even */
+    return 1;
   }
-  printf("Is the midpoint %d?\n", (size / 2) + 1);
-
-  return (size / 2) + 1;
+  /* The length of the studentArray is odd */
+  return 0;
 }
 
-// int getFirstIndex(int* half, int midpoint) {
-//   int halfsize = sizeof(half) / sizeof(half[0]);
-
-//   printf("Halfsize: %d\n", halfsize);
-
-//   if ((halfsize % 2) > 0) {
-//     return (halfsize / 2) - 1;
-//   }
-//   return (halfsize / 2);
-// }
-
-// int getThirdIndex(int* half, int midpoint) {
-//   int size = sizeof(half) / sizeof(half[0]);
-
-//   if ((size % 2) > 0) {
-//     return midpoint + (size / 2);
-//   }
-//   return midpoint + (size / 2) + 1;
-// }
-
-int getFirstIndex() {
-  int midpoint = mid();
+int *getFirstHalf() {
   qsort(studentArray, size, w, lowToHigh);
-  int firstHalf[midpoint];
-  for (int i = 0; i < midpoint; i++) {
+  printf("The first half of grades studentArray is:\n");
+  for (int i = 0; i < rawmedian; i++) {
     firstHalf[i] = studentArray[i].grade;
-    printf("firstHalf[%d]: %d\n", i, studentArray[i].grade);
+    printf("%d\n", firstHalf[i]);
   }
-  int halfsize = sizeof(firstHalf) / sizeof(firstHalf[0]);
-
-  printf("Halfsize: %d\n", halfsize);
-
-  if ((halfsize % 2) > 0) {
-    return (halfsize / 2) + 1;
-  }
-  return (halfsize / 2);
+  return firstHalf;
 }
 
-int getThirdIndex() {
-  int midpoint = mid();
-  printf("Is the middle value %d\n", studentArray[midpoint].grade);
-  int removeMedian;
-  int secondHalf[midpoint];
-  if ((size - midpoint) != midpoint) {
-    removeMedian = midpoint + 1;
+int *getSecondHalf() {
+  qsort(studentArray, size, w, lowToHigh);
+  if (isEven(size)) {
+    printf("\nIf the studentArray is even, the second half of the studentArray "
+           "is:\n");
+    for (int i = rawmedian, j = 0; i < size; i++, j++) {
+      secondHalf[j] = studentArray[i].grade;
+      printf("%d\n", secondHalf[j]);
+    }
+  } else {
+    printf("\nIf the studentArray is odd, the second half of the studentArray "
+           "is:\n");
+    for (int i = rawmedian + 1, j = 0; i < size; i++, j++) {
+      secondHalf[j] = studentArray[i].grade;
+      printf("%d\n", secondHalf[j]);
+    }
   }
+  return secondHalf;
+}
 
-  for (int i = removeMedian, j = 0; i < size; i++, j++) {
-    secondHalf[j] = studentArray[i].grade;
-    printf("secondHalf[%d]: %d\n", i, studentArray[i].grade);
+int getMedian() {
+  if (isEven(size)) {
+    /* If the length of the array is even: */
+    if (((studentArray[rawmedian - 1].grade + studentArray[rawmedian].grade) %
+         2) > 0) {
+      /*
+      If the average of two values is not evenly split in half, round up instead
+      of down.
+      */
+      return ((studentArray[rawmedian - 1].grade +
+               studentArray[rawmedian].grade) /
+              2) +
+             1;
+    } else {
+      return (studentArray[rawmedian - 1].grade +
+              studentArray[rawmedian].grade) /
+             2;
+    }
   }
-  int halfsize = sizeof(secondHalf) / sizeof(secondHalf[0]);
+  /* If the length of the array is odd: */
+  return studentArray[rawmedian].grade;
+}
 
-  if ((halfsize % 2) > 0) {
-    return midpoint + (halfsize / 2);
+int getQuartiles(int *subarray) {
+  /* Need a special case for arrays fewer than four elements if you want to be
+   * able to handle quartile calculation for arrays smaller than four elements
+   */
+  if (size == 2) {
+    int mid = getMedian();
+    if (((subarray[0] + mid) % 2) > 0) {
+      return ((subarray[0] + mid) / 2) + 1;
+    }
+    return (subarray[0] + mid) / 2;
   }
-  return midpoint + (halfsize / 2) + 1;
+  if (size == 3) {
+    return ((studentArray[rawmedian].grade + subarray[rawmedian / 2]) / 2);
+  }
+  if (isEven(rawmedian)) {
+    /* If the length of the subarray is even: */
+    if (((subarray[rawmedian / 2] + subarray[(rawmedian / 2) - 1]) % 2) > 0) {
+      /*
+      If the average of two values is not evenly split in half, round up instead
+      of down.
+      */
+      return ((subarray[rawmedian / 2] + subarray[(rawmedian / 2) - 1]) / 2) +
+             1;
+    } else {
+      return (subarray[rawmedian / 2] + subarray[(rawmedian / 2) - 1]) / 2;
+    }
+  } else {
+    /* If the length of the array is odd: */
+    return subarray[rawmedian / 2];
+  }
 }
 
 int main() {
-  int quarter;
-  int midpoint = mid();
+  printf("The studentArray contains %d values\n", size);
+  printf("The floored median of the studentArray is %d\n\n", rawmedian);
+  int *firstHalf = getFirstHalf();
+  int *secondHalf = getSecondHalf();
+
+  int q1 = getQuartiles(firstHalf);
+  printf("\nStudent must receive a grade of %d or more in order to score the "
+         "same or greater than 25 percent of their classmates\n",
+         q1);
+  int realMedian = getMedian();
+  printf("Student must receive a grade of %d or more in order to score the "
+         "same or greater than 50 percent of their classmates\n",
+         realMedian);
+
+  int q3 = getQuartiles(secondHalf);
+  printf("Student must receive a grade of %d or more in order to score the "
+         "same or greater than 75 percent of their classmates\n",
+         q3);
   qsort(studentArray, size, w, lowToHigh);
 
-  int q1 = getFirstIndex();
-  printf("Is the first index %d?\n", q1);
-  if ((midpoint % 2) == 0) {
-    if (((studentArray[q1 - 1].grade + studentArray[q1].grade) % 2) > 0) {
-      printf("Is the first value: %d?\n",
-             ((studentArray[q1 - 1].grade + studentArray[q1].grade) / 2) + 1);
-    } else {
-      printf("Is the first value: %d?\n",
-             (studentArray[q1 - 1].grade + studentArray[q1].grade) / 2);
-    }
-  } else {
-    printf("Is the first value %d?\n", studentArray[q1].grade);
-  }
+  printf("\nThis is the sorted student array:\n");
 
-  int secondHalf[midpoint];
-  printf("Is the middle value %d\n", studentArray[midpoint].grade);
-
-  int q3 = getThirdIndex();
-
-  printf("Is the third index %d?\n", q3);
-  if ((midpoint % 2) == 0) {
-    if (((studentArray[q3 - 1].grade + studentArray[q3].grade) % 2) > 0) {
-      printf("Is the third value: %d?\n",
-             ((studentArray[q3 - 1].grade + studentArray[q3].grade) / 2) + 1);
-    } else {
-      printf("Is the third value: %d?\n",
-             (studentArray[q3 - 1].grade + studentArray[q3].grade) / 2);
-    }
-  } else {
-    printf("Is the third value %d?\n", studentArray[q3].grade);
-  }
-
-  printf("The students' grades are as follows:\n");
   for (int i = 0; i < size; i++) {
-    printf("Student %d: %d\n", studentArray[i].studentID,
+    printf("StudentID: %d   Grade: %d\n", studentArray[i].studentID,
            studentArray[i].grade);
   }
 
