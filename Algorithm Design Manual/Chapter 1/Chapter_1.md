@@ -44,7 +44,7 @@ NearestNeighbor(_P_)
 
 &nbsp; &nbsp; &nbsp; &nbsp;Return to _p₀_ from _p<sub>n</sub>₋₁_
 
-> > **This does not work in situations where all points are along a line - might lead to jumping from left to right**
+&nbsp; &nbsp; &nbsp; &nbsp;**This does not work in situations where all points are along a line - might lead to jumping from left to right**
 
 #### ClosestPair Pseudocode
 
@@ -65,7 +65,7 @@ ClosestPair(_P_)
 &nbsp; &nbsp; &nbsp; &nbsp;Connect the two endpoints by an edge
 
 
-> > **This doesn't work if the data points are two rows of equally spaced points where the two rows are slightly closer than the dots in each row to each other**
+&nbsp; &nbsp; &nbsp; &nbsp;**This doesn't work if the data points are two rows of equally spaced points where the two rows are slightly closer than the dots in each row to each other**
 
 ![ClosestPairCounterExample](ClosestPairCounterExample.png)
 
@@ -82,7 +82,7 @@ OptimalTSP(_P_)
 &nbsp; &nbsp; &nbsp; &nbsp;Return _P<sub>min</sub>_
 
 
-> > **This is accurate but very slow**
+&nbsp; &nbsp; &nbsp; &nbsp;**This is accurate but very slow**
 
 #### Difference between algorithms and heuristics
 
@@ -112,7 +112,7 @@ ShortestFirst(_I_)
 
 &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;Delete _j_, and any interval which intersects _j_ from _I_
 
-> > **Accepting the shortest job may block us from taking two other jobs**
+&nbsp; &nbsp; &nbsp; &nbsp;**Accepting the shortest job may block us from taking two other jobs**
 
 #### Exhaustive Scheduling Pseudocode
 
@@ -130,13 +130,16 @@ ExhaustiveScheduling(_I_)
 
 &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;Return _S<sub>max</sub>_
 
-> > **Gets all the possibilities, but isn't efficient when size of input gets larger**
+&nbsp; &nbsp; &nbsp; &nbsp;**Gets all the possibilities, but isn't efficient when size of input gets larger**
 
 #### Optimal Scheduling Psuedocode
 
 OptimalScheduling(_I_)
+
 &nbsp; &nbsp; &nbsp; &nbsp;While (_I_ ≠ ∅) do
+
 &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;Accept the job _j_ from _I_ with the earliest completion date
+
 &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;Delete _j_ and any interval which intersects _j_ from _I_
 
 
@@ -293,7 +296,7 @@ This general trick of separating out the largest term lies at the heart of all p
 
 **Modeling** is the the skill of taking your application and describing it in such a way that you can connect what problems you need to solve with the abstract algorithms you can use to solve them
 
-#### Combinatorial Objects (Common Structures):
+### Combinatorial Objects (Common Structures):
 
 **Here is a list of common objects and the keywords to know to use them**
 **Permutation**: Arrangements of items. Keywords: arrangement, tour, ordering, sequence
@@ -336,7 +339,7 @@ A L G O R I T H M -> A | L G O R I T H M
 
 **Take Home**: Modeling your application in terms of well-defined structures and algorithms is the most important single step towards a solution
 
-#### Recursive Objects
+### Recursive Objects
 
 The key to recursive thinking is looking for things that are comprised of smaller things of the same type. All of the items in the combinatorial objects list could be thought about recursively.
 
