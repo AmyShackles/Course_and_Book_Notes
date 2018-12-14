@@ -326,3 +326,32 @@ The key to recursive thinking is looking for things that are comprised of smalle
 **Polygons**: Polygons are recursive because you can split them apart by adding chords between nonagent vertices and still end up with a polygon. The smallest simple polygon is a triangle
 
 **Strings** If you add or remove characters of a string, you're still left with a string
+
+### Psychic Lottery
+
+**Problem**: Given four lotto numbers (out of 15), find smallest number of tickets needed to guarantee at least one winning ticket.
+
+- Need a way to generate subsets
+- Need a way to cover
+- Need to keep track of combinations covered
+- Need search algorithm to decide what to pick next
+
+#### PseudoCode
+
+LotoTicketSet(n, k, l)
+
+&nbsp; &nbsp; &nbsp; &nbsp;Initialize the![lotto](lotto.gif)-element bit-vector V to all false
+
+&nbsp; &nbsp; &nbsp; &nbsp;While there exists a false entry in V
+
+&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;Select a k-subset T of {1, ...n} as the next ticket to buy
+
+&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;For each of the l-subsets of Tᵢ of T, V[rank(Tᵢ)]=true
+
+&nbsp; &nbsp; &nbsp; &nbsp;Report the set of tickets bought
+
+Client provided counter-example - 5 tickets would cover when the algorithm had said it would take 28.
+
+Problem in modeling -> didn't need to cover every combination (which they would have realized if they'd attempted to solve a small example by hand before jumping into code)
+
+Recommended books for war stories: _Mythical Man Month_ and _Programming Pearls_
