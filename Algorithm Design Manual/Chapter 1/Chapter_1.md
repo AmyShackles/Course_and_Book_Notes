@@ -25,50 +25,64 @@ An **instance** is a specific use case for a problem with a specific input in or
 
 #### Nearest Neighbor Psuedocode
 
-```
-NearestNeighbor(P)
-    Pick and visit an initial point p₀ from P
-    p = p₀
-    i = 0
-    While there are still unvisited points
-        i = i + 1
-        select pᵢ to be the closest unvisited point to pᵢ₋₁
-        Visit pᵢ
 
-    Return to p₀ from pⁿ₋₁ // Pretend that's a subscript n, it was fighting me
-```
+NearestNeighbor(_P_)
 
-This does not work in situations where all points are along a line - might lead to jumping from left to right
+&nbsp; &nbsp; &nbsp; &nbsp;Pick and visit an initial point _p₀_ from _P_
+
+&nbsp; &nbsp; &nbsp; &nbsp;_p = p₀_
+
+&nbsp; &nbsp; &nbsp; &nbsp;_i_ = 0
+
+&nbsp; &nbsp; &nbsp; &nbsp;While there are still unvisited points
+
+&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;_i_ = _i_ + 1
+
+&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;select _pᵢ_ to be the closest unvisited point to _pᵢ₋₁_
+
+&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;Visit _pᵢ_
+
+&nbsp; &nbsp; &nbsp; &nbsp;Return to _p₀_ from _p<sub>n</sub>₋₁_
+
+> > **This does not work in situations where all points are along a line - might lead to jumping from left to right**
 
 #### ClosestPair Pseudocode
 
-```
-ClosestPair(P)
-    Let n be the number of points in set P
-    For i = 1 to n - 1 do
-        d = ∞
-        For each pair of endpoings(s, t) from distinct vertex chains
-            if dist(s, t) ≤ d and then sᵐ = s, tᵐ = t, and d = dist(s, t)
-        Connect (ᵐ, tᵐ) by an edge
-    Connect the two endpoints by an edge
-// Again, pretend that's a subscript m
-```
+ClosestPair(_P_)
 
-This doesn't work if the data points are two rows of equally spaced points where the two rows are slightly closer than the dots in each row to each other
+&nbsp; &nbsp; &nbsp; &nbsp;Let _n_ be the number of points in set _P_
+
+&nbsp; &nbsp; &nbsp; &nbsp;For _i_ = 1 to _n_ - 1 do
+
+&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;_d_ = ∞
+
+&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;For each pair of endpoints _(s, t)_ from distinct vertex chains
+
+&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;if _dist(s, t)_ ≤ d and then _s<sub>m</sub>_ = _s, t<sub>m</sub>_ = _t_, and _d = dist(s, t)_
+
+&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;Connect (_s<sub>m</sub>_, _t<sub>m</sub>_) by an edge
+
+&nbsp; &nbsp; &nbsp; &nbsp;Connect the two endpoints by an edge
+
+
+> > **This doesn't work if the data points are two rows of equally spaced points where the two rows are slightly closer than the dots in each row to each other**
+
 ![ClosestPairCounterExample](ClosestPairCounterExample.png)
 
-#### OptimalTSP(P)
+#### OptimalTSP(P) PsuedoCode
 
-```
-d = ∞
-For each of the n! permutations, Pᵢ of point set P
-    If (cost(Pᵢ) ≤ d) then d = cost(Pᵢ) and P ᵐⁱⁿ = Pᵢ
-Return Pᵐⁱⁿ
+OptimalTSP(_P_)
 
-// The ᵐⁱⁿ should be subscript
-```
+&nbsp; &nbsp; &nbsp; &nbsp;_d_ = ∞
 
-This is accurate but very slow
+&nbsp; &nbsp; &nbsp; &nbsp;For each of the _n!_ permutations, _Pᵢ_ of point set _P_
+
+&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;If (cost(_Pᵢ_) ≤ _d_) then _d_ = cost(_Pᵢ_) and _P<sub>min</sub> = Pᵢ_
+
+&nbsp; &nbsp; &nbsp; &nbsp;Return _P<sub>min</sub>_
+
+
+> > **This is accurate but very slow**
 
 #### Difference between algorithms and heuristics
 
@@ -82,38 +96,51 @@ Heuristics may usually do a good job, but do not provide a guarantee
 
 #### Earliest Job First Pseudocode
 
-```
-EarliestJobFirst(I)
-    Accept the earliest starting job j from I which does not overlap any previously accepted job and repeat until no such jobs remain
-```
+EarliestJobFirst(_I_)
+
+&nbsp; &nbsp; &nbsp; &nbsp;Accept the earliest starting job _j_ from _I_ which does not overlap any previously accepted job and repeat until no such jobs remain
 
 Taking one job may exclude 2, etc., so no guarantee that it will yield the largest subset
 
 #### Shortest Job First Pseudocode
 
-```
-ShortestFirst(I)
-    j = 0
-    Sᵐᵃˣ = ∅
-    For each of the 2ⁿ subsets, Sᵢ of intervals I
-        If (Sᵢ is mutually non-overlapping) and (size (Sᵢ) > j)
-            then j = size(Sᵢ) and Sᵐᵃˣ = Sᵢ
-        Return Sᵐᵃˣ
-// You guessed it, max should be subscript.  Hilariously, the n should not be
-```
+ShortestFirst(_I_)
 
-Gets all the possibilities, but isn't efficient when size of input gets larger
+&nbsp; &nbsp; &nbsp; &nbsp;While(_I_ ≠ ∅) do
+
+&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;Accept the shortest job _j_ from _I_.
+
+&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;Delete _j_, and any interval which intersects _j_ from _I_
+
+> > **Accepting the shortest job may block us from taking two other jobs**
+
+#### Exhaustive Scheduling Pseudocode
+
+ExhaustiveScheduling(_I_)
+
+&nbsp; &nbsp; &nbsp; &nbsp;_j_ = 0
+
+&nbsp; &nbsp; &nbsp; &nbsp;_S<sub>max</max> = ∅_
+
+&nbsp; &nbsp; &nbsp; &nbsp;For each of the 2<sup>*n*</sup> subsets, _Sᵢ_ of intervals _I_
+
+&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;If (_Sᵢ_ is mutually non-overlapping) and _(size (Sᵢ) > j_)
+
+&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;then _j = size(Sᵢ)_ and _S<sub>max</sub>_ = _Sᵢ_
+
+&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;Return _S<sub>max</sub>_
+
+> > **Gets all the possibilities, but isn't efficient when size of input gets larger**
 
 #### Optimal Scheduling Psuedocode
 
-```
-OptimalScheduling(I)
-    While (I ≠ ∅) do
-        Accept the job j from I with the earliest completion date
-        Delete j and any interval which intersects j from I
-```
+OptimalScheduling(_I_)
+&nbsp; &nbsp; &nbsp; &nbsp;While (_I_ ≠ ∅) do
+&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;Accept the job _j_ from _I_ with the earliest completion date
+&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;Delete _j_ and any interval which intersects _j_ from _I_
 
-∅ is a symbol for "empty set"
+
+**NOTE**: ∅ is a symbol for "empty set"
 
 **Lesson**: Reasonable-looking algorithms can easily be incorrect. Algorithm correctness is a property that must be carefully demonstrated
 
@@ -226,7 +253,7 @@ It's important that the sum is quadratic, not that the constant is 1/2. In gener
 for *p*≥1. Thus, sum of squares is cubic and the sum of cubes is quartic.
 
 Big theta (ϴ(_x_)) notation will be explained later in book.
-For p < -1 the sum converges to a constant, even as n -> ∞
+For _p_ < -1 the sum converges to a constant, even as _n_ -> ∞
 
 **Geometric progression**
 In geometric progressions, the index of the loop affects the exponent, ie:
@@ -338,15 +365,15 @@ The key to recursive thinking is looking for things that are comprised of smalle
 
 #### PseudoCode
 
-LotoTicketSet(n, k, l)
+LottoTicketSet(_n, k, l_)
 
-&nbsp; &nbsp; &nbsp; &nbsp;Initialize the![lotto](lotto.gif)-element bit-vector V to all false
+&nbsp; &nbsp; &nbsp; &nbsp;Initialize the![lotto](lotto.gif)-element bit-vector _V_ to all false
 
-&nbsp; &nbsp; &nbsp; &nbsp;While there exists a false entry in V
+&nbsp; &nbsp; &nbsp; &nbsp;While there exists a false entry in _V_
 
-&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;Select a k-subset T of {1, ...n} as the next ticket to buy
+&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;Select a _k_-subset _T_ of {1, ..._n_} as the next ticket to buy
 
-&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;For each of the l-subsets of Tᵢ of T, V[rank(Tᵢ)]=true
+&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;For each of the _l_-subsets of _Tᵢ_ of _T_, _V[rank(Tᵢ)]_ = true
 
 &nbsp; &nbsp; &nbsp; &nbsp;Report the set of tickets bought
 
