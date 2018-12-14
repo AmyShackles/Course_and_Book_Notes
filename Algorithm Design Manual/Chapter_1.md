@@ -250,15 +250,15 @@ Note: Formula in book actually had n at the top to the right of the sum and i = 
 
 Assume the statement is true up to _n_. To prove the general case of _n_ + 1, observer that rolling out the largest term
 
-![Factorial3](factorial3.gif)
+![Factorial3](Factorial3.gif)
 
 reveals the left side of our inductive assumption. Substituting the right side gives us
 
-![Factorial4](factorial4.gif)
+![Factorial4](Factorial4.gif)
 
-![Factorial5](factorial5.gif)
+![Factorial5](Factorial5.gif)
 
-![Factorial6](factorial6.gif)
+![Factorial6](Factorial6.gif)
 
 This general trick of separating out the largest term lies at the heart of all proofs.
 
