@@ -22,6 +22,8 @@ int sales[NUM_AGENTS][NUM_MONTHS] = {
 }
 ```
 
+[Exercises](./Exercises.md) is a list of exercises from Chapter 3.
+
 [3-1.c](./3-1.c) is a C program for sorting an array of student structs.
 
 [3-1.cpp](./3-1.cpp) is a C++ implementation of the same thing.
