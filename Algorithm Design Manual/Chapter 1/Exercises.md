@@ -130,6 +130,8 @@
 
 1-1:&nbsp; &nbsp; &nbsp; &nbsp;"The 3*n* + 1 Problem" - UVA Judge 100
 
+[My solution for The 3n + 1 Problem](./3n+1.c)
+
 1-2:&nbsp; &nbsp; &nbsp; &nbsp;"The Trip" - UVA Judge 10137
 
 1-3:&nbsp; &nbsp; &nbsp; &nbsp;"Australian Voting" - UVA Judge 10142
