@@ -299,12 +299,19 @@ This general trick of separating out the largest term lies at the heart of all p
 ### Combinatorial Objects (Common Structures):
 
 **Here is a list of common objects and the keywords to know to use them**
+
 **Permutation**: Arrangements of items. Keywords: arrangement, tour, ordering, sequence
+
 **Subsets**: Selections from a larger group of items. As order does not matter in subsets as they matter in permutations, permutations of subsets are considered identical. Keywords: cluster, collection, committee, group, packaging, selection
+
 **Trees**: A structure used to represent hierarchical relationships between items. Keywords: dominance relationship, ancestor/descendant relationship, taxonomy, hierarchy
+
 **Graphs**: Structures used to represent relationships between arbitrary pairs of objects. Keywords: network, circuit, web, relationship
+
 **Points**: Represent locations in geometric space. Keywords: positions, sites, data records, locations
+
 **Polygons**: Represent regions in geometric space, eg borders of a country can be described by a polygon on a map/plane. Keywords: regions, shapes, configurations, boundaries
+
 **Strings**: Sequence of characters or patterns. Keywords: text, characters, patterns, labels
 
 Recursive decompositions of combinatorial objects:
