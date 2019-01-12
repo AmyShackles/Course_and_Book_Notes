@@ -83,3 +83,110 @@ _Problem_: Is (x+y)<sup>2</sup> = O(x<sup>2</sup> + y<sup>2</sup>)?
 _Solution_:
 
 Working with Big Oh means going back to the definition. By definition, the expression is valid iff we can find some _c_ such that (x+y)<sup>2</sup> <= c(x<sup>2</sup> + y<sup>2</sup>).
+
+#### Dominance Relations:
+
+Big Oh groups functions into classes. Faster-growing functions dominate slower-growing ones. Some classes include:
+
+- Constant functions - _f(n)_ = 1. There is no dependence on the parameter _n_.
+- Logarithmic functions - _f(n) = log(n)_ e.g. binary search. Function grows slowly as _n_ increases but faster than constant
+- Linear functions - _f(n) = n_ Functions that measure the cost of looking at every item once (or twice, or ten times) in an _n_ element array
+- Superlinear functions - _f(n) = n log n_ e.g. quicksort/merge sort
+- Quadratic functions - _f(n) = n<sup>2</sup>_ Functions that measure the cost of looking at most or all pairs of items in an _n_ element universe - e.g. insertion sort/selection sort
+- Cubic functions - _f(n) = n<sup>3</sup> Iterate through triples of items in \_n_ element universe
+- Exponential functions - _f(n) = c<sup>n</sup>_ for a given constant _c > 1_. Functions like 2<sup>n</sup> arise when enumerating over all subsets of _n_ items
+- Factorial functions - _f(n) = n!_ Functions that arise when generating all permutations or orderings of _n_ items.
+
+_n!_ >> _2<sup>n</sup>_ >> _n<sup>3</sup>_ >> _n<sup>2</sup>_ >> _n log n_ >> _n_ >> _log n_ >> _1_
+
+#### Adding Functions
+
+The sum of two functions is governed by the dominant one: n<sup>3</sup> + n<sup>2</sup> + n + 1 = O(n<sup>3</sup>)
+
+#### Multiplying Functions
+
+Multiplying a function by another constant does not affect big O - _O(c <sup>.</sup> f(n)) -> O(f(n))_
+If both functions in a product are increasing, both are important:
+_O(f(n)) * O(g(n)) -> O(f(n) * g(n))_
+
+**Selection Sort**:
+
+Identify smallest unsorted element and place at end of sorted portion
+
+```
+selection_sort(int s[], int n) {
+    int i, j /* counters */
+    int min; /* index of minimum */
+
+    for (i = 0; i < n; i++) {
+        min = i;
+        for (j = i + 1; j < n; j++) {
+            if (s[j] < s[min]) min = j;
+        swap(&s[i], &s[min]);
+        } /* Nested loop runs n - i - 1 times where i is index of outer loop */
+    } /* Outer loop runs n times */
+}
+```
+
+The number of times the _if_ statement is executed is given by:<br/>
+![selectionSort](./selectionSort.gif) <br/>
+_S(n) = (n - 1) + (n - 2) + (n - 3) + ... + 2 + 1_
+
+**Insertion Sort**
+
+```
+for (i = 1; i < n; i++) {
+    j = i;
+    while ((j > 0) && (s[j] < s[j - 1])) {
+        swap(&s[j], &s[j-1]);
+        j = j - 1;
+    }
+}
+```
+
+Even though there are two stopping conditions for the inner loop, we assume it runs _n_ times for worst case since _i < n_, making insertion sort quadratic - \_O(n<sup>2</sup>)
+
+**String Pattern Matching**
+
+Problem: Substring pattern matching
+Input: A text string _t_ and a pattern string _p_
+Output: Does _t_ contain the pattern _p_ as a substring and if so, where?
+
+```
+int findMatch(char* p, char* t) {
+    int i, j; /* counters */
+    int m, n; /* string lengths */
+
+    m = strlen(p);
+    n = strlen(t);
+
+    for (i = 0; i <=(n-m); i=i+1) {
+        j = 0;
+        while ((j<m) && (t[i+j]==p[j]))
+            j = j+1;
+        if (j == m) return(i);
+    }
+    return (-1);
+}
+```
+
+**Matrix Multiplication**
+
+Problem: Matrix multiplication
+Input: Two matrices, _A_ (of dimension _x_ <sup>.</sup> _y_) and _B_ (dimension _y_ <sup>.</sup> _z_)
+Output: An _x <sup>.</sup> z_ matrix _C_ where _C[i][j]_ is the dot product of the ith row of _A_ and the jth column of _B_
+
+```
+for (i = `; i <= x; i++) {
+    for (j = 1; j <= z; j++) {
+        C[i][j] = 0;
+        for (k = 1; k <= y; k++) {
+            C[i][j] += A[i][k] * B[k][j];
+        }
+    }
+}
+```
+
+**Logarithms**
+
+Functions that grow slowly and arise in any process where things are repeatedly halved or doubled. Example: Binary search
