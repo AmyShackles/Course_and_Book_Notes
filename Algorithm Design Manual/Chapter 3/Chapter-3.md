@@ -287,3 +287,118 @@ If node to delete has one child, connect that node's child to its parent.
 If node to delete has two children, relabel node with the key of its immediate successor in sorted order (leftmost descendant in the right subtree)
 
 Deletion worst case complexity is O(h) with h being the height of the tree. The height of a tree can range from log n to n dependent on insertion order.
+
+Random search trees are usually good, but if you're unlucky you can end up with a linear-height tree. You can make a tree that has an insertion/deletion procedure that adjusts the tree to maintain balance (splay trees, red/black trees) so that the height is always O(log n), which is why dictionary operations (insert/delete/query) take O(log n) - because we can assume worst-case complexities of a balanced tree.
+
+**Take Home**: Picking the wrong data structure for the job can be disastrous in terms of performance. Identifying the very best data structure is usually not as critical because there can be several choices that perform similarly.
+
+### Stop and think: Balanced Search Trees
+
+**Problem**: You're given the task of reading _n_ numbers and then printing them out in sorted order. Suppoosed you have access to a balanced dictionary data structure, which supports the operations search, insert, delete, minimum, maximum, successor, and predecessor each in O(log n) time.
+
+1. How can you sort in O(n log n) time using only insert and in-order traversal?
+2. How can you sort in O(n log n) time using only minimum, successor, and insert?
+3. How can you sort in O(n log n) time using only minimum, insert, and delete?
+
+**Solution**:
+
+```
+sort1()
+    initialize_tree(t)
+    while (not EOF)
+        read(x)
+        insert(x, t)
+    Traverse(t)
+```
+
+```
+sort2()
+    initialize_tree(t)
+    while (not EOF)
+        read(x)
+        insert(x, t)
+    y = Minimum(t)
+    while (y != NULL) do
+        print(y->item)
+        y = successor(y, t)
+```
+
+```
+sort3()
+    initialize_tree(t)
+    while (not EOF)
+        read(x)
+        insert(x, t)
+    y = Minimum(t)
+    while (y != NULL) do
+        print(y->item)
+        Delete(y, t)
+        y = Minimum(t)
+```
+
+For the second problem, we start from minimum and repeatedly find successor to traverse the tree in sorted order. For the third problem, we don't have successor, but because we have delete, we can find minimum, print it, delete it, and then call minimum to find the next element.
+
+- Each of the algorithms perform a linear number of logarithmic-time operations, thus O(n log n)
+
+### Priority Queues:
+
+Data structures that provide more flexibility than regular sorting through the ability to add new elements at arbitrary intervals. More cost-effective to insert into priority queue than to re-sort on each new arrival
+
+#### Basic Operations supported by priority queues:
+
+- _Insert (Q, x)_ - Given an item _x_ with key _k_, insert it into the priority queue _Q_
+- _Find-Minimum(Q)_ or _Find-Maximum(Q)_ - Return a pointers to the item whose key value is smaller (or larger) than any other key in priority queue _Q_
+- _Delete-Minimum(Q)_ or _Delete-Maximum(Q)_ - Remove the item from the priority queue _Q_ whose key is minimum(maximum)
+
+**Take Home**: Building algorithms around data structures such as dictionaries and priority queues leads to both clean structure and good performance
+
+### Stop and Think: Basic Priority Queue Implementation
+
+_Problem_: What is the worst-case time complexity of the three basic priority queue operations (insert, find-minimum, delete-minimum) when the basic data structure is:
+
+- an unsorted array
+- a sorted array
+- a balanced binary search tree
+
+_Solution_:
+| Operation | Unsorted Array | Sorted Array | Balanced Tree |
+|------------------- |---------------- |-------------- |--------------- |
+| Insert(Q, x) | O(1) | O(n) | O(log n) |
+| Find-Minimum(Q) | O(1) | O(1) | O(1) |
+| Delete-Minimum(Q) | O(n) | O(1) | O(log n) |
+
+Find-Minimum is constant time because you can use an extra pointer to the minimum entry, updating on insertion if the item inserted is less than the current minimum.
+Delete-Minimum's time is based on time it usually takes to perform a search.
+
+### Hash Tables
+
+Practical way to maintain a dictionary as it exploits the fact that looking an item up by index in an array takes constant time. Hash function is a mathematical function that maps keys to integers which are then used as an index into an array.
+
+Collisions occur when two distinct keys hash to the same value. Chaining is the easiest approach to collision resolution and involves representing the hash table as an array of linked lists where each list represents all the items that hash to that particular index. Takes up a lot of space.
+
+Alternative: Open addressing -> hash table is maintained as an array of elements initialized to null. On insert, check to see if spot is empty. If empty, place. If taken, find next empty space.
+
+- Deletions with open addressing could break a chain of insertions and make elements inaccessible, so need to reinsert all items in the run following the new hole.
+
+Chaining and open addressing require O(m) to initialize an m-element hash table to null elements prior to first insertion. Traversing all elements takes O(m + n) for chaining because we have to scan all buckets. Reduces to O(m) for open-addressing because n must be at most m.
+
+| Operation         | Hash Table (Expected) | Hash Table (worst case) |
+| ----------------- | --------------------- | ----------------------- |
+| Search(L, k)      | O(n/m)                | O(n)                    |
+| Insert(L, x)      | O(1)                  | O(1)                    |
+| Delete(L, x)      | O(1)                  | O(1)                    |
+| Successor(L, x)   | O(n+m)                | O(n+m)                  |
+| Predecessor(L, x) | O(n+m)                | O(n+m)                  |
+| Minimum(L)        | O(n+m)                | O(n+m)                  |
+| Maximum(L)        | O(n+m)                | O(n+m)                  |
+
+Pragmatically, hash tables are often the best data structure to maintain a dictionary.
+
+Possible to detect duplicates with hash table as two objects of the same content should hash to the same integer - any hash collision with the hash of search term then could be further assessed to check if different.
+
+### Specialized Data Structures
+
+- _String data structures_: Character strings are usually represented by arrays of characters. Suffix trees/arrays are special data structures that preprocess strings to make pattern matching operations faster.
+- _Geometric data structures_: typically consist of collections of data points and regions. Regions in the plane can be described by polygons where boundary of polygon is given by a chain of line segments. Polygons can be represented using an array of points. Special data structures such as _kd-trees_ organize points and regions by geogmetric location to support fast search.
+- _Graph data structures_: usually represented by adjacency matrices or adjacency lists.
+- _Set data structures_: Subsets of items typically represented using dictionaries to support fast membership queries. _Bit vectors_ are boolean arrays such that the _ith_ bit represents true if _i_ is in the subset.
