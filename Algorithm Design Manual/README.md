@@ -5,7 +5,10 @@ I will be adding notes as I work through the textbook, though I will probably ab
 ### Notes
 
 [Chapter One](./Chapter%201/Chapter_1.md)
+
 [Chapter Two](./Chapter%202/Chapter-2.md)
+
+[Chapter Three](./Chapter%203/Chapter-3.md)
 
 ### Exercises
 
