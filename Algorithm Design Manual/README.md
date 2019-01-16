@@ -10,6 +10,8 @@ I will be adding notes as I work through the textbook, though I will probably ab
 
 [Chapter Three](./Chapter%203/Chapter-3.md)
 
+[Chapter Four](./Chapter%204/Chapter-4.md)
+
 ### Exercises
 
 [Chapter One](./Chapter%201/Exercises.md) - may be the only list of exercises I post to this repo
