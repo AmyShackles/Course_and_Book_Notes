@@ -14,6 +14,8 @@ I will be adding notes as I work through the textbook, though I will probably ab
 
 [Chapter Five](./Chapter%205/Chapter-5.md)
 
+[Chapter Six](./Chapter%206/Chapter-6.md)
+
 ### Exercises
 
 [Chapter One](./Chapter%201/Exercises.md) - may be the only list of exercises I post to this repo
