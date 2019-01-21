@@ -123,3 +123,131 @@ process_solution(int a[], int k) {
     printf("\n");
 }
 ```
+
+```
+is_a_solution(int a[], int k, int n) {
+    return k == n;
+}
+```
+
+```
+generate_permutations(int n) {
+    int a[NMAX]; /* solution vector */
+    backtrack(a, 0, n);
+}
+```
+
+### Constructing All Paths in a Graph
+
+Starting point of any path from _s_ to _t_ always starts with _s_ so _s_ is the only candidate for the first position and _S<sub>1</sub> = {s}_. Possible candidates for second position are vertices _v_ such that _{s, v}_ is an edge of the graph. In general, _S<sub>k</sub>_ consists of the set of vertices adjacent to _a<sub>k</sub>_ that have not been used elsewhere in the partial solution _A_.
+
+```
+construct_candidates(int a[], int k, int n, int c[], int *ncandidates) {
+    int i; /* counter */
+    bool in_sol[NMAX]; /* what's already in the solution */
+    edgenode *p; /* temporary pointer */
+    int last; /* last vertex on current path */
+    for (i = 1; i < NMAX; i++) in_sol[i] = Fa;se;
+    for (i = 1; i < k; i++) in_sol[a[i]] = True;
+    if (k == 1) {
+        c[0] = 1; /* always start from vertex 1 */
+        *ncandidates = 1;
+    }
+    else {
+        *ncandidates = 0;
+        last = a[k-1];
+        p = g.edges[last];
+        while (p != NULL) {
+            if (!in_sol[p->y]) {
+                c[*ncandidates] = p->y;
+                *ncandidates = *ncandidates + 1;
+            }
+            p = p->next;
+        }
+    }
+}
+```
+
+```
+is_a_solution(int a[], int k, int t) {
+    return a[k] == t;
+}
+```
+
+```
+process_solution(int a[], int k) {
+    solution_count++; /* count all s to t paths */
+}
+```
+
+### Search Pruning
+
+_Pruning_: A technique of cutting of search the instant it is established that a partial solution could not be extended to a full solution.
+
+### Take Home Lesson
+
+Combinatorial searches, when augmented with tree pruning techniques, can be used to find the optimal solution of small optimization problems. How small depends on the problem, but typical size limits are somewhere between 15 ≤ n ≤ 50 items.
+
+### Sudoku
+
+Backtracking lends itself to solving a Sudoku puzzle
+
+```
+#define DIMENSION 9; /* 9 x 9 board */
+#define NCELLS DIMENSION * DIMENSION /* 81 cells */
+
+typedef struct {
+    int x, y; /* x and y coordinates of point */
+} point;
+
+typedef struct {
+    int m[DIMENSION+1][DIMENSION+1]; /* matrix of board contents */
+    int freecount; /* how many open squares left */
+    point move[NCELLS+1]; /* how did we fill spaces? */
+} boardtype;
+```
+
+Constructing the options for the next solution position requires picking the open square to fill next (next_square) and identifying which numbers are options to fill the square (possible_values)
+
+```
+construct_candidates(int a[], int k, boardtype *board, int c[], int *ncandidates) {
+    int x, y; /* position of next move */
+    int i; /* counter */
+    bool possible[DIMENSION+1]; /* possible for square */
+    next_square(&x, &y, board); /* which square to fill next */
+
+    board->move[k].x = x; /* store choice for next position */
+    board->move[k].y = y;
+    *ncandidates = 0;
+
+    if((x < 0) && (y <0)) return; /* error condition - no moves possible */
+
+    possible_values(x, y, board, possible);
+    for (i = 0; i <= DIMENSION; i++)
+        if (possible[i] == True) {
+            c[*ncandidates] = i;
+            *ncandidates = *ncandidates + 1;
+        }
+}
+```
+
+```
+make_move(int a[], int k, boardtype *board) {
+    fill_board(board->move[k].x, board->move[k].y, a[k], board);
+}
+```
+
+```
+unmake_move(int a[], int k, boardtype *board) {
+    free_space(board->move[k].x, board->move[k].y, board);
+}
+```
+
+```
+is_a_solution(int a[], int k, boardtype *board) {
+    if (board->freecount == 0)
+        return True
+    else
+        return False
+}
+```
