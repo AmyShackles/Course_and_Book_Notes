@@ -251,3 +251,190 @@ is_a_solution(int a[], int k, boardtype *board) {
         return False
 }
 ```
+
+Turn off search once solution found.
+
+```
+process_solution(int a[], int k, boardtype *board) {
+    print_board(board);
+    finished = True;
+}
+```
+
+Two reasonable approaches to selectingt the next square:
+
+- _Arbitrary selection_: Pick the first open square
+
+- _Most constrained selection_: Pick square with the fewest possible options
+
+Two possibilities for possible_values:
+
+- _Local count_: Allows all numbers 1-9 not already used in column, row, or sector
+
+- _Look ahead_: Testing to see if another open square has no options under local count criteria, allowing us to backtrack sooner
+
+| Printing Condition |                 |           | Puzzle Complexity |                |
+| ------------------ | --------------- | --------- | ----------------- | -------------- |
+| next_square        | possible_values | Easy      | Medium            | Hard           |
+| arbitrary          | local count     | 1,904,832 | 863,305           | never finishes |
+| arbitrary          | look ahead      | 127       | 142               | 12,507,212     |
+| most contrained    | local count     | 48        | 84                | 1,243,838      |
+| most constrained   | look ahead      | 48        | 65                | 10,374         |
+
+Easy board: Easy for humans
+Medium board: Stumbed finalists of World Sudoku Championship in March 2006
+Hard: Contains only 17 fixed numbers - fewest specified known number of positions with only one complete solution (seen below)
+
+|     |     |     |     |     |     |     | 1   | 2   |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+|     |     |     |     | 3   | 5   |     |     |     |
+|     |     |     | 6   |     |     |     | 7   |     |
+| 7   |     |     |     |     |     | 3   |     |     |
+|     |     |     | 4   |     |     | 8   |     |     |
+| 1   |     |     |     |     |     |     |     |     |
+|     |     |     | 1   | 2   |     |     |     |     |
+|     | 8   |     |     |     |     |     | 4   |     |
+|     | 5   |     |     |     |     | 6   |     |     |
+
+### Take Home:
+
+Clever pruning can make short work of surprisingly hard combinatorial search problems. Proper pruning will have a greater impact on search than any other factor.
+
+### Heuristic Search Methods
+
+Common components to heuristics discussed:
+
+- _Solution space representation_ - Complete, concise descriptions of set of possible solutions for the problem
+- _Cost function_ - Search methods need a function to access quality of each element of the solution space.
+
+Search heuristic identifies element with the best possible score - highest or lowest depending on problem.
+
+### Random Sampling:
+
+Simplest method to search in a solution space uses random sampling. Repeatedly construct random solutions and evaluate them, stopping when you have a good enough solution or are tired of waiting. True random sampling means being able to select elements from the solution space uniformly at random - each of the elements of the solution space must have an equal probability of being the next candidate selected.
+
+```
+random_sampling(tsp_instance *t, int nsamples, tsp_solution *bestsol) {
+    top_solution s; /* current top solution */
+    double best_cost; /* best cost so far */
+    double cost_now; /* current cost */
+    int i; /* counter */
+
+    initialize_solution(t->n, &s);
+    best_cost = solution_cost(&s, t);
+    copy_solution(&s, bestsol);
+
+    for (i = 1; i <= nsamples; i++) {
+        random_solution(&s);
+        cost_now = solution_cost(&s, t);
+        if (cost_now < best_cost) {
+            best_cost = cost_now;
+            copy_solution(&s, bestsol);
+        }
+    }
+}
+```
+
+Random sampling does well when:
+
+- There are a high proportion of acceptable solutions
+- When there is no coherence in the solution space
+
+### Stop and Think: Picking the Pair
+
+_Problem_: Propose an efficient algorithm to generate elements from the (<sup>n</sup><sub>2</sub>) _imagine the n is directly over the 2_ unordered pairs of {1,...n} uniformly at random
+
+_Solution_:
+
+```
+do {
+    i = random_int(1, n);
+    j = random_int(1, n);
+    if (i > j) swap(&i, &j);
+} while (i === j);
+```
+
+### Local Search
+
+A local search heuristic starts from an arbitrary element of the solution space and scans the neighborhood looking for a favorable transition to take. Hill-climbing and closely related heuristics such as greedy search and gradient descent search are great at finding local options quickly but often fail to find the globally best solution.
+
+```
+hill_climbing(tsp_instance *t, tsp_solution *s) {
+    double cost; /* best cost so far */
+    double delta; /* swap cost */
+    int i, j; /* counters */
+    bool stuck; /* did I get a better solution? */
+    double transition();
+
+    initialize_solution(t->n, s);
+    random_solution(s);
+    cost = solution_cost(s, t);
+
+    do {
+        stuck = True;
+        for (i = 1; i < t->n; i++)
+            for (j = i + 1; j < t->n; j++) {
+                delta = transition(s, t, i, j);
+                if (delta < 0) {
+                    stuck = False;
+                    cost = cost + delta;
+                } else transition(s, t, i, j);
+            }
+    } while (!stuck);
+}
+```
+
+When does local search do well?
+
+- When there is great coherence in the search space
+- When cost of incremental evaluation is much cheaper than global solution
+
+### Simulated Annealing
+
+### Take Home:
+
+Simulated annealing is effective because it spends more time working on good elements of the solution space than on bad ones and because it avoids getting trapped repeatedly in the same local optima.
+
+```
+anneal(tsp_instance *t, tsp_solution *s) {
+    int i1, i2; /* pair of items to swap */
+    int i, j; /* counters */
+    double temperature; /* current system temp */
+    double current_value; /* value of current state */
+    double start_value; /* value of start of loop */
+    double delta; /* value after swap */
+    double merit, flip; /* hold swap accept conditions */
+    double exponent; /* exponent for energy function */
+
+    temperature = INITIAL_TEMPERATURE;
+    initialize_solution(t->n, s);
+    current_value = solution_cost(s, t);
+    for(i = 1; i <= COOLING_STEPS; i++) {
+        temperature = COOLING_FRACTION;
+        start_value = current_value;
+        for (j = 1; j <= STEPS_PER_TEMP; j++) {
+            /* pick indices of elements to swap */
+            i1 = random_int(1, t->n);
+            i2 = random_int(1, t->n);
+            flip = random_float(0,1);
+            delta = transition(s, t, i1, i2);
+            exponent = (-delta/current_value)/(k * temperature);
+            merit = pow(E, exponent);
+            if (delta < 0) /* ACCEPT-WIN */
+                current_value = current_value + delta;
+            else { if (merit > flip) /* ACCEPT-LOSS */
+                current_value = current_value + delta;
+            else
+                transition(s, t, i2, i1);
+            }
+        }
+    /* restore temperature if progress has been made */
+    if ((current_value - start_value) < 0.0)
+        temperature = temperature/COOLING_FRACTION;
+    }
+}
+```
+
+### Take Home
+
+Simulated annealing is a simple but effective technique for efficiently obtaining a good but not optimal solution to combinatorial search problems.
