@@ -18,6 +18,12 @@ I will be adding notes as I work through the textbook, though I will probably ab
 
 [Chapter Seven](./Chapter%207/Chapter-7.md)
 
+[Chapter Eight](./Chapter%208/Chapter-8.md)
+
+[Chapter Nine](./Chapter%209/Chapter-9.md)
+
+[Chapter Ten](./Chapter%2010/Chapter-10.md)
+
 ### Exercises
 
 [Chapter One](./Chapter%201/Exercises.md) - may be the only list of exercises I post to this repo
